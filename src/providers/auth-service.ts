@@ -11,12 +11,23 @@ export class AuthService {
     @ViewChild(Nav) nav: Nav;
     isLoggedin: boolean;
     AuthToken;
+    access_token;
+    expiry;
+    token_type;
+    uid;
+    client;
 
     constructor(public http: Http, public storage: Storage) {
         this.http = http;
         this.storage = storage;
         this.isLoggedin = false;
         this.AuthToken = null;
+        this.access_token = undefined;
+        this.expiry = undefined;
+        this.token_type = undefined;
+        this.uid = undefined;
+        this.client = undefined;
+
     }
 
     storeUserCredentials(token) {
@@ -51,10 +62,16 @@ export class AuthService {
 
         return new Promise(resolve => {
             this.http.post('http://localhost:3000/api/v1/auth/sign_in', creds, {headers: headers}).subscribe(data => {
-                if(data.json()){
-                    console.log(data.json().data.authentication_token);
-                    this.storeUserCredentials(data.json().data.authentication_token);
-                    resolve(data.json().data.authentication_token);
+                console.log(data);
+                if(data){
+                    window.localStorage.setItem('access-token', data.headers.toJSON()['Access-Token'][0]);
+                    window.localStorage.setItem('expiry',data.headers.toJSON()['Expiry'][0]);
+                    window.localStorage.setItem('client',data.headers.toJSON()['Client'][0]);
+                    window.localStorage.setItem('uid',data.headers.toJSON()['Uid'][0]);
+                    window.localStorage.setItem('token-type',data.headers.toJSON()['Token-Type'][0]);
+                    console.log(this.access_token);
+                    this.storeUserCredentials(data.headers);
+                    resolve(this.access_token);
                 }
                 else
                     resolve(false);

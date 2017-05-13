@@ -22,6 +22,7 @@ export class RestaurantsPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad Restaurants');
+    this.appy.setHeaders();
     this.showList();
     this.auth.loadUserCredentials();
     console.log(window.localStorage.getItem('token'));
