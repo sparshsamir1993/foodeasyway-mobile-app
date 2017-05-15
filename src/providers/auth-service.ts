@@ -30,10 +30,10 @@ export class AuthService {
 
     }
 
-    storeUserCredentials(token) {
-        window.localStorage.setItem('token',token);
-        console.log(token);
-        this.useCredentials(token);
+    storeUserCredentials(user) {
+        window.localStorage.setItem('user',JSON.stringify(user));
+        console.log(user);
+        this.useCredentials(user);
 
     }
     useCredentials(token) {
@@ -43,7 +43,7 @@ export class AuthService {
     }
 
     loadUserCredentials() {
-        var token = window.localStorage.getItem('token');
+        var token = window.localStorage.getItem('user');
         console.log(token);
         this.useCredentials(token);
     }
@@ -51,7 +51,9 @@ export class AuthService {
     destroyUserCredentials() {
         this.isLoggedin = false;
         this.AuthToken = null;
-        window.localStorage.removeItem('token');
+        window.localStorage.removeItem('user');
+        window.localStorage.removeItem('order');
+
 
     }
 
@@ -70,7 +72,7 @@ export class AuthService {
                     window.localStorage.setItem('uid',data.headers.toJSON()['Uid'][0]);
                     window.localStorage.setItem('token-type',data.headers.toJSON()['Token-Type'][0]);
                     console.log(this.access_token);
-                    this.storeUserCredentials(data.headers);
+                    this.storeUserCredentials(data.json().data);
                     resolve(this.access_token);
                 }
                 else

@@ -1,12 +1,12 @@
-<ion-header>
 
-  <ion-navbar>
-    <ion-title>Home</ion-title>
-  </ion-navbar>
-
-</ion-header>
 <ion-menu [content]="content">
+    <ion-header>
 
+      <ion-navbar>
+        <ion-title>Home</ion-title>
+      </ion-navbar>
+
+    </ion-header>
     <ion-content *ngIf="authenticated()">
         <ion-list>
             <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">

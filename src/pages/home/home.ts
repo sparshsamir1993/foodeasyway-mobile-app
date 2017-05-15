@@ -42,7 +42,7 @@ export class HomePage {
       }
 
       authenticated(){
-          if(window.localStorage.getItem('token')){
+          if(window.localStorage.getItem('user')){
               return true;
           }
           else{

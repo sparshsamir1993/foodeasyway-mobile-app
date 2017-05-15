@@ -15,11 +15,7 @@
 
 <ion-content padding>
     <ion-list>
-        <ion-item>
-            <ion-list *ngFor="let r of restaurants" >
-                {{r.name}}
-            </ion-list>
-        </ion-item>
+        <h3 ion-item *ngFor="let r of restaurants" (click)="showRestaurant(r)">{{r.name}}</h3>
     </ion-list>
 
 </ion-content>
