@@ -39,8 +39,8 @@ export class RestaurantsPage {
   }
 
   showRestaurant(rest){
-
-      this.navCtrl.push(RestaurantItems,{items:rest.items});
+      var order = JSON.parse(window.localStorage.getItem('order'));
+      this.navCtrl.push(RestaurantItems,{items:rest.items, order_items: rest.order_items});
   }
 
 }

@@ -79,14 +79,13 @@ export class ApplicationService {
       var rest = window.localStorage.getItem('restaurants');
       return(rest);
   }
-
   addOrderItems(item_id,restaurant_id,quantity){
       console.log(JSON.parse(window.localStorage.getItem('order')));
       console.log(JSON.parse(window.localStorage.getItem('user')));
       var order =JSON.parse(window.localStorage.getItem('order'));
-      var user =JSON.parse(window.localStorage.getItem('user'))
+      var user =JSON.parse(window.localStorage.getItem('user'));
       if(order != undefined){
-          var order_id = JSON.parse(order._body).object.id;
+          var order_id = order.id;
           var headers = new Headers();
           console.log(this.access_token,this.expiry,this.token_type,this.uid, this.client);
           headers.append('Content-Type', 'application/x-www-form-urlencoded');
@@ -103,10 +102,10 @@ export class ApplicationService {
                         order_restaurant_id: restaurant_id
                     };
           return new Promise(resolve =>{
-              this.http.patch(this.baseUrl+'/order_items?restaurant_id='+restaurant_id+'&item_id='+item_id+'&quantity='+quantity+'&user_id='+user.id+'&order_restaurant_id='+restaurant_id+'&order_id='+order_id, data, {headers: headers}).subscribe(data =>{
+              this.http.post(this.baseUrl+'/order_items?&order_id='+order_id+'&restaurant_id='+restaurant_id+'&item_id='+item_id+'&quantity='+quantity+'&user_id='+user.id+'&total=0' , {headers: headers}).subscribe(data =>{
                   if(data){
                       console.log(data);
-                      window.localStorage.setItem('order', data.json().data);
+                      window.localStorage.setItem('order', JSON.stringify(data.json().object));
                       if(data.headers.toJSON()['Access-Token'] != undefined){
                           this.getHeaders(data);
                       }
@@ -130,10 +129,10 @@ export class ApplicationService {
           headers.append('client', this.client);
 
           return new Promise(resolve=>{
-             this.http.post(this.baseUrl + '/order_items?restaurant_id='+restaurant_id+'&item_id='+item_id+'&quantity='+quantity+'&user_id='+user.id+'&order_restaurant_id='+restaurant_id, {headers: headers}).subscribe(data=>{
+             this.http.post(this.baseUrl + '/order_items?restaurant_id='+restaurant_id+'&item_id='+item_id+'&quantity='+quantity+'&user_id='+user.id, {headers: headers}).subscribe(data=>{
                  if(data){
                      console.log(data);
-                     window.localStorage.setItem('order', JSON.stringify(data));
+                     window.localStorage.setItem('order', JSON.stringify(data.json().object));
                      if(data.headers.toJSON()['Access-Token'] != undefined){
                          this.getHeaders(data);
                      }
