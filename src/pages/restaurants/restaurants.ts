@@ -17,6 +17,7 @@ import { RestaurantItems } from '../restaurant-items/restaurant-items';
 })
 export class RestaurantsPage {
     restaurants;
+    baseUrl;
   constructor(public navCtrl: NavController, public navParams: NavParams, public appy: ApplicationService, public auth: AuthService) {
   }
 
@@ -24,6 +25,7 @@ export class RestaurantsPage {
     console.log('ionViewDidLoad Restaurants');
     this.appy.setHeaders();
     this.showList();
+    this.baseUrl = "http://localhost:3000";
     this.auth.loadUserCredentials();
     console.log(window.localStorage.getItem('token'));
     if(this.auth.isLoggedin){

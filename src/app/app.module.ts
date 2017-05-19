@@ -1,7 +1,7 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { AuthService } from "../providers/auth-service"
 import { ApplicationService } from "../providers/application"
-
+import { IonicImageLoader } from 'ionic-image-loader';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { IonicStorageModule } from '@ionic/storage';
@@ -39,7 +39,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-     IonicStorageModule.forRoot(),
+    IonicStorageModule.forRoot(),
+    IonicImageLoader.forRoot(),
     HttpModule
   ],
   bootstrap: [IonicApp],

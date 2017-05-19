@@ -14,8 +14,14 @@
 
 
 <ion-content padding>
-    <ion-list>
-        <h3 ion-item *ngFor="let r of restaurants" (click)="showRestaurant(r)">{{r.name}}</h3>
-    </ion-list>
+    <ion-card *ngFor="let r of restaurants"  (click)="showRestaurant(r)">
+        <img src="{{baseUrl}}{{r.avatar}}" />
+        <ion-card-content>
+            <ion-card-title>
+                {{r.name}}
+            </ion-card-title>
+            <!-- <h4>{{r.min}} -->
+        </ion-card-content>
+    </ion-card>
 
 </ion-content>

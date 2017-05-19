@@ -28,7 +28,7 @@ export class RestaurantItems {
       this.items = navParams.get('items');
       this.order_items = navParams.get('order_items');
       this.order_items.map(function(x){
-          if(x){
+          if(x && order){
               if(x.order_id == order.id){
                   a.push(x.item_id);
               }
