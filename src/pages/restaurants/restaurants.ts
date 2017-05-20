@@ -19,13 +19,23 @@ export class RestaurantsPage {
     restaurants;
     baseUrl;
   constructor(public navCtrl: NavController, public navParams: NavParams, public appy: ApplicationService, public auth: AuthService) {
+
+      setInterval(function(){
+          appy.setHeaders();
+          appy.getRestaurants().then((data)=>{
+
+          console.log(data);
+          this.restaurants = data;
+      });
+  },25000);
+
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad Restaurants');
     this.appy.setHeaders();
     this.showList();
-    this.baseUrl = "http://localhost:3000";
+    this.baseUrl = "https://grubvibe.herokuapp.com";
     this.auth.loadUserCredentials();
     console.log(window.localStorage.getItem('token'));
     if(this.auth.isLoggedin){
@@ -37,6 +47,10 @@ export class RestaurantsPage {
       this.appy.getRestaurants().then((data)=>{
           console.log(data);
           this.restaurants = data;
+
+      })
+      .catch((err)=>{
+          console.log(err);
       });
   }
 

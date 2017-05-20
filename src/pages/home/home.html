@@ -1,13 +1,31 @@
+<ion-header>
+    <ion-navbar>
+        <ion-grid>
+            <ion-row>
+                <ion-col col-2>
+                    <button ion-button icon-only menuToggle>
+                          <ion-icon name="menu"></ion-icon>
+                    </button>
+                </ion-col>
+                <ion-col col-8>
+                    <ion-title>Grubvibes</ion-title>
+                </ion-col>
+                <ion-col col-2>
+                    <ion-icon id="cart" name="cart" ><ion-badge >{{this.order_items}}</ion-badge></ion-icon>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-navbar>
+</ion-header>
 
 <ion-menu [content]="content">
     <ion-header>
-
-      <ion-navbar>
-        <ion-title>Home</ion-title>
-      </ion-navbar>
-
+        <ion-navbar menuToggle>
+            <ion-title>Menu</ion-title>
+        </ion-navbar>
     </ion-header>
-    <ion-content *ngIf="authenticated()">
+
+    <ion-content padding *ngIf="authenticated()">
         <ion-list>
             <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
                 {{p.title}}

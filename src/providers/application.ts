@@ -21,7 +21,7 @@ export class ApplicationService {
     restaurants;
 
   constructor(public http: Http, public storage: Storage, public auth: AuthService) {
-      this.baseUrl = 'http://localhost:3000/api/v1';
+      this.baseUrl = 'https://grubvibe.herokuapp.com/api/v1';
     console.log('Hello Application Provider');
     this.setHeaders();
 
@@ -59,10 +59,12 @@ export class ApplicationService {
       headers.append('client', this.client);
 
 
+
       return new Promise(resolve =>{
           this.http.get(this.baseUrl + '/restaurants', {headers: headers}).subscribe(data =>{
               if(data){
                   console.log(data);
+                  this.restaurants = data.json();
                   if(data.headers.toJSON()['Access-Token'] != undefined){
                       this.getHeaders(data);
                   }
@@ -71,6 +73,13 @@ export class ApplicationService {
                   resolve(data.json());
               }
               else{
+              }
+          },
+          err=>{
+              console.log(err);
+
+              if(err.statusText == 'Unauthorized'){
+                  this.auth.logout();
               }
           });
       });
