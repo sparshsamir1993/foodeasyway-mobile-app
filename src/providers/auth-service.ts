@@ -63,7 +63,7 @@ export class AuthService {
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
         return new Promise(resolve => {
-            this.http.post('https://grubvibe.herokuapp.com/api/v1/auth/sign_in', creds, {headers: headers}).subscribe(data => {
+            this.http.post('http://localhost:3000/api/v1/auth/sign_in', creds, {headers: headers}).subscribe(data => {
                 console.log(data);
                 if(data){
                     window.localStorage.setItem('access-token', data.headers.toJSON()['Access-Token'][0]);

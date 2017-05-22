@@ -21,7 +21,7 @@ export class ApplicationService {
     restaurants;
 
   constructor(public http: Http, public storage: Storage, public auth: AuthService) {
-      this.baseUrl = 'https://grubvibe.herokuapp.com/api/v1';
+      this.baseUrl = 'http://localhost:3000/api/v1';
     console.log('Hello Application Provider');
     this.setHeaders();
 
@@ -68,7 +68,7 @@ export class ApplicationService {
                   if(data.headers.toJSON()['Access-Token'] != undefined){
                       this.getHeaders(data);
                   }
-                  window.localStorage.setItem('restaurants', data.json());
+                  window.localStorage.setItem('restaurants', JSON.stringify(data.json()));
                   console.log(this.restaurants);
                   resolve(data.json());
               }

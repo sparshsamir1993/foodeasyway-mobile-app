@@ -35,7 +35,7 @@ export class RestaurantsPage {
     console.log('ionViewDidLoad Restaurants');
     this.appy.setHeaders();
     this.showList();
-    this.baseUrl = "https://grubvibe.herokuapp.com";
+    this.baseUrl = "http://localhost:3000";
     this.auth.loadUserCredentials();
     console.log(window.localStorage.getItem('token'));
     if(this.auth.isLoggedin){
@@ -46,6 +46,7 @@ export class RestaurantsPage {
   showList(){
       this.appy.getRestaurants().then((data)=>{
           console.log(data);
+          window.localStorage.setItem('restaurants', JSON.stringify(data));
           this.restaurants = data;
 
       })

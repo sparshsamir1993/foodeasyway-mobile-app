@@ -7,7 +7,7 @@ import { ApplicationService } from "../../providers/application";
 import { LoginPage } from '../login/login';
 import { LogoutPage } from '../logout/logout';
 import { RestaurantsPage } from '../restaurants/restaurants'
-
+import { Order } from '../order/order'
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
@@ -18,7 +18,7 @@ export class HomePage {
   @ViewChild(Nav) nav: Nav;
   order;
   restaurants;
-  order_items
+  order_items;
   pages: Array<{title: string, component: any}>;
   pagesNot: Array<{title: string, component: any}>;
   constructor(public navCtrl: NavController, public auth: AuthService, public appy: ApplicationService) {
@@ -40,6 +40,7 @@ export class HomePage {
 
       ionViewDidLoad() {
         console.log('ionViewDidLoad Home');
+        this.ifOrder(this.order);
       }
 
       ifOrder(order){
@@ -76,6 +77,20 @@ export class HomePage {
           else{
               return false;
           }
+      }
+      orderPresent(){
+          var order = JSON.parse(window.localStorage.getItem('order'));
+          if(order){
+              return true;
+          }
+          else{
+              return false;
+          }
+      }
+      seeOrder(){
+          var order = JSON.parse(window.localStorage.getItem('order'));
+          var restaurants = JSON.parse(window.localStorage.getItem('restaurants'));
+          this.navCtrl.push(Order,{order: order, restaurants: restaurants});
       }
 
   }

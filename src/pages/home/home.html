@@ -10,8 +10,8 @@
                 <ion-col col-8>
                     <ion-title>Grubvibes</ion-title>
                 </ion-col>
-                <ion-col col-2>
-                    <ion-icon id="cart" name="cart" ><ion-badge >{{this.order_items}}</ion-badge></ion-icon>
+                <ion-col col-2 *ngIf="orderPresent()">
+                    <ion-icon id="cart" name="cart"  (click)="seeOrder()" ><ion-badge >{{this.order_items}}</ion-badge></ion-icon>
                 </ion-col>
             </ion-row>
         </ion-grid>
