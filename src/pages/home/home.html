@@ -1,23 +1,4 @@
-<ion-header>
-    <ion-navbar>
-        <ion-grid>
-            <ion-row>
-                <ion-col col-2>
-                    <button ion-button icon-only menuToggle>
-                          <ion-icon name="menu"></ion-icon>
-                    </button>
-                </ion-col>
-                <ion-col col-8>
-                    <ion-title>Grubvibes</ion-title>
-                </ion-col>
-                <ion-col col-2 *ngIf="orderPresent()">
-                    <ion-icon id="cart" name="cart"  (click)="seeOrder()" ><ion-badge >{{this.order_items}}</ion-badge></ion-icon>
-                </ion-col>
-            </ion-row>
-        </ion-grid>
-    </ion-navbar>
-</ion-header>
-
+<page-navbar></page-navbar>
 <ion-menu [content]="content">
     <ion-header>
         <ion-navbar menuToggle>

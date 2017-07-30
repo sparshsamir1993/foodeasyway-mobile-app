@@ -13,12 +13,24 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'order.html',
 })
 export class Order {
-
+    orderId;
+    restaurants;
+    orderItems;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+      this.orderItems = JSON.parse(window.localStorage.getItem('order-items'));
+      this.restaurants = navParams.get('restaurants');
+      console.log(this.orderItems);
+      console.log(this.restaurants);
+
+      
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad Order');
+  }
+
+  getOrderItems(id, restauranst){
+
   }
 
 }

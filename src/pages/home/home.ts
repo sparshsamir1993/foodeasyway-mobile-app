@@ -3,7 +3,7 @@ import { Nav,Platform } from 'ionic-angular';
 import { NavController} from 'ionic-angular';
 import { AuthService } from "../../providers/auth-service";
 import { ApplicationService } from "../../providers/application";
-
+import { NavbarPage } from '../pages/navbar/navbar';
 import { LoginPage } from '../login/login';
 import { LogoutPage } from '../logout/logout';
 import { RestaurantsPage } from '../restaurants/restaurants'
@@ -89,8 +89,10 @@ export class HomePage {
       }
       seeOrder(){
           var order = JSON.parse(window.localStorage.getItem('order'));
-          var restaurants = JSON.parse(window.localStorage.getItem('restaurants'));
-          this.navCtrl.push(Order,{order: order, restaurants: restaurants});
+          var order_items = JSON.parse(window.localStorage.getItem('order-items'));
+          console.log(order);
+          console.log(order_items);
+          this.navCtrl.push(Order,{orderId: order.id, orderItems: order_items});
       }
 
   }

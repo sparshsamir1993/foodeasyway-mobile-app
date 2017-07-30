@@ -14,5 +14,11 @@
 
 
 <ion-content padding>
-
+    <ion-list>
+        <ion-item-group menuClose  *ngFor="let item of orderItems" >
+            <ion-item >
+                {{item.name}}
+            </ion-item>
+        </ion-item-group>
+    </ion-list>
 </ion-content>

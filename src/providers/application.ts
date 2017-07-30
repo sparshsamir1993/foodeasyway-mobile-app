@@ -88,7 +88,7 @@ export class ApplicationService {
       var rest = window.localStorage.getItem('restaurants');
       return(rest);
   }
-  addOrderItems(item_id,restaurant_id,quantity){
+  addOrderItems(item_id,restaurant_id,quantity, name){
       console.log(JSON.parse(window.localStorage.getItem('order')));
       console.log(JSON.parse(window.localStorage.getItem('user')));
       var order =JSON.parse(window.localStorage.getItem('order'));
@@ -108,16 +108,18 @@ export class ApplicationService {
                         quantity: quantity,
                         order_id: order.id,
                         user_id: user.id,
-                        order_restaurant_id: restaurant_id
+                        order_restaurant_id: restaurant_id,
+                        name: name
                     };
           return new Promise(resolve =>{
-              this.http.post(this.baseUrl+'/order_items?&order_id='+order_id+'&restaurant_id='+restaurant_id+'&item_id='+item_id+'&quantity='+quantity+'&user_id='+user.id+'&total=0' , {headers: headers}).subscribe(data =>{
+              this.http.post(this.baseUrl+'/order_items?&order_id='+order_id+'&restaurant_id='+restaurant_id+'&item_id='+item_id+'&quantity='+quantity+'&user_id='+user.id+'&name='+ name +'&total=0' , {headers: headers}).subscribe(data =>{
                   if(data){
                       console.log(data);
                       window.localStorage.setItem('order', JSON.stringify(data.json().object));
                       if(data.headers.toJSON()['Access-Token'] != undefined){
                           this.getHeaders(data);
                       }
+                      this.getOrderItems();
                       resolve(data.json());
                   }
                   else{
@@ -138,13 +140,14 @@ export class ApplicationService {
           headers.append('client', this.client);
 
           return new Promise(resolve=>{
-             this.http.post(this.baseUrl + '/order_items?restaurant_id='+restaurant_id+'&item_id='+item_id+'&quantity='+quantity+'&user_id='+user.id, {headers: headers}).subscribe(data=>{
+             this.http.post(this.baseUrl + '/order_items?restaurant_id='+restaurant_id+'&item_id='+item_id+'&quantity='+quantity+'&user_id='+user.id+'&name='+ name , {headers: headers}).subscribe(data=>{
                  if(data){
                      console.log(data);
                      window.localStorage.setItem('order', JSON.stringify(data.json().object));
                      if(data.headers.toJSON()['Access-Token'] != undefined){
                          this.getHeaders(data);
                      }
+                     this.getOrderItems();
                      resolve(data.json());
                  }
                  else{
@@ -153,6 +156,34 @@ export class ApplicationService {
              });
           });
       }
+
+
   }
 
+  getOrderItems(){
+      var headers = new Headers();
+      console.log(this.access_token,this.expiry,this.token_type,this.uid, this.client);
+      headers.append('Content-Type', 'application/x-www-form-urlencoded');
+      headers.append('access-token', this.access_token);
+      headers.append('expiry', this.expiry);
+      headers.append('token-type', this.token_type);
+      headers.append('uid', this.uid);
+      headers.append('client', this.client);
+      var order_id = JSON.parse(window.localStorage.getItem('order')).id;
+      return new Promise(resolve=>{
+         this.http.get(this.baseUrl + '/order_items/'+ order_id , {headers: headers}).subscribe(data=>{
+             if(data){
+                 console.log(data);
+                 window.localStorage.setItem('order-items', JSON.stringify(data.json()));
+                 if(data.headers.toJSON()['Access-Token'] != undefined){
+                     this.getHeaders(data);
+                 }
+                //  resolve(data.json());
+             }
+             else{
+
+             }
+         });
+      });
+  }
 }

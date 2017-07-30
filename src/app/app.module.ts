@@ -1,7 +1,7 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { AuthService } from "../providers/auth-service"
 import { ApplicationService } from "../providers/application"
-import { IonicImageLoader } from 'ionic-image-loader';
+
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { IonicStorageModule } from '@ionic/storage';
@@ -20,7 +20,7 @@ import { RestaurantsPage } from '../pages/restaurants/restaurants';
 import { RestaurantItems } from '../pages/restaurant-items/restaurant-items';
 import { Order } from '../pages/order/order'
 import { User, UserDetails, IDetailedError } from '@ionic/cloud-angular';
-
+import { NavbarPage } from '../pages/navbar/navbar';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -35,13 +35,13 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     LogoutPage,
     RestaurantsPage,
     RestaurantItems,
-    Order
+    Order,
+    NavbarPage
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot(),
-    IonicImageLoader.forRoot(),
     HttpModule
   ],
   bootstrap: [IonicApp],
@@ -55,7 +55,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     LogoutPage,
     RestaurantsPage,
     RestaurantItems,
-    Order
+    Order,
+    NavbarPage
 
 
   ],

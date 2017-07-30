@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { RestaurantsPage } from '../restaurants/restaurants';
 import { ApplicationService } from '../../providers/application';
 import { AuthService } from '../../providers/auth-service';
-
+import { HomePage } from '../home/home';
 /**
  * Generated class for the RestaurantItems page.
  *
@@ -49,22 +49,22 @@ export class RestaurantItems {
 
   increaseQuan(item){
       item.quantity++;
-      console.log(item.id, item.restaurant_id, item.quantity);
-      this.appy.addOrderItems(item.id, item.restaurant_id, item.quantity);
+      console.log(item.id, item.restaurant_id, item.quantity, item.name);
+      this.appy.addOrderItems(item.id, item.restaurant_id, item.quantity, item.name);
   }
   decreaseQuan(item){
       item.quantity--;
-      this.appy.addOrderItems(item.id, item.restaurant_id, item.quantity);
+      this.appy.addOrderItems(item.id, item.restaurant_id, item.quantity, item.name);
 
   }
   increaseQuanO(item){
       item.quantity++;
-      console.log(item.id, item.restaurant_id, item.quantity);
-      this.appy.addOrderItems(item.item_id, item.restaurant_id, item.quantity);
+     console.log(item.id, item.restaurant_id, item.quantity, item.name);
+      this.appy.addOrderItems(item.item_id, item.restaurant_id, item.quantity, item.name);
   }
   decreaseQuanO(item){
       item.quantity--;
-      this.appy.addOrderItems(item.item_id, item.restaurant_id, item.quantity);
+      this.appy.addOrderItems(item.item_id, item.restaurant_id, item.quantity, item.name);
 
   }
 
