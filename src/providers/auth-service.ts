@@ -16,6 +16,7 @@ export class AuthService {
     token_type;
     uid;
     client;
+    baseUrl;
 
     constructor(public http: Http, public storage: Storage) {
         this.http = http;
@@ -27,6 +28,8 @@ export class AuthService {
         this.token_type = undefined;
         this.uid = undefined;
         this.client = undefined;
+        //this.baseUrl = "http://localhost:3000/api/v1";
+        this.baseUrl = "https://grubvibes.herokuapp.com/api/v1";
 
     }
 
@@ -63,14 +66,14 @@ export class AuthService {
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
         return new Promise(resolve => {
-            this.http.post('http://localhost:3000/api/v1/auth/sign_in', creds, {headers: headers}).subscribe(data => {
+            this.http.post(this.baseUrl +'/auth/sign_in', creds, {headers: headers}).subscribe(data => {
                 console.log(data);
                 if(data){
-                    window.localStorage.setItem('access-token', data.headers.toJSON()['Access-Token'][0]);
-                    window.localStorage.setItem('expiry',data.headers.toJSON()['Expiry'][0]);
-                    window.localStorage.setItem('client',data.headers.toJSON()['Client'][0]);
-                    window.localStorage.setItem('uid',data.headers.toJSON()['Uid'][0]);
-                    window.localStorage.setItem('token-type',data.headers.toJSON()['Token-Type'][0]);
+                    window.localStorage.setItem('access-token', data.headers.toJSON()['access-token'][0]);
+                    window.localStorage.setItem('expiry',data.headers.toJSON()['expiry'][0]);
+                    window.localStorage.setItem('client',data.headers.toJSON()['client'][0]);
+                    window.localStorage.setItem('uid',data.headers.toJSON()['uid'][0]);
+                    window.localStorage.setItem('token-type',data.headers.toJSON()['token-type'][0]);
                     console.log(this.access_token);
                     this.storeUserCredentials(data.json().data);
                     resolve(this.access_token);
@@ -86,7 +89,7 @@ export class AuthService {
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
         return new Promise(resolve => {
-            this.http.post('http://localhost:3333/addUser', creds, {headers: headers}).subscribe(data => {
+            this.http.post(this.baseUrl + '/addUser', creds, {headers: headers}).subscribe(data => {
                 if(data.json().success){
                     resolve(true);
                 }

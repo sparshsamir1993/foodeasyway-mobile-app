@@ -33,4 +33,14 @@ export class Order {
 
   }
 
+  deleteOItem(item){
+    console.log(item);
+    //this.appy.destroyOItem(item);
+  }
+
+  presentInRest(rest, item){
+    if(rest.id == item.restaurant.id){ 
+      return true;
+    }
+  }
 }

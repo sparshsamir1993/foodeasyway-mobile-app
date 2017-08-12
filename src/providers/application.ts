@@ -21,7 +21,8 @@ export class ApplicationService {
     restaurants;
 
   constructor(public http: Http, public storage: Storage, public auth: AuthService) {
-      this.baseUrl = 'http://localhost:3000/api/v1';
+      //this.baseUrl = 'http://localhost:3000/api/v1';
+      this.baseUrl = 'https://grubvibes.herokuapp.com/api/vi';
     console.log('Hello Application Provider');
     this.setHeaders();
 
@@ -29,12 +30,12 @@ export class ApplicationService {
 
   getHeaders(data){
       console.log('getting headers');
-      if(data.headers.toJSON()['Access-Token'] != undefined){
-          window.localStorage.setItem('access-token', data.headers.toJSON()['Access-Token'][0]);
-          window.localStorage.setItem('expiry',data.headers.toJSON()['Expiry'][0]);
-          window.localStorage.setItem('client',data.headers.toJSON()['Client'][0]);
-          window.localStorage.setItem('uid',data.headers.toJSON()['Uid'][0]);
-          window.localStorage.setItem('token-type',data.headers.toJSON()['Token-Type'][0]);
+      if(data.headers.toJSON()['access-token'] != undefined){
+          window.localStorage.setItem('access-token', data.headers.toJSON()['access-token'][0]);
+          window.localStorage.setItem('expiry',data.headers.toJSON()['expiry'][0]);
+          window.localStorage.setItem('client',data.headers.toJSON()['client'][0]);
+          window.localStorage.setItem('uid',data.headers.toJSON()['uid'][0]);
+          window.localStorage.setItem('token-type',data.headers.toJSON()['token-type'][0]);
           this.setHeaders();
 
       }
@@ -65,7 +66,7 @@ export class ApplicationService {
               if(data){
                   console.log(data);
                   this.restaurants = data.json();
-                  if(data.headers.toJSON()['Access-Token'] != undefined){
+                  if(data.headers.toJSON()['access-token'] != undefined){
                       this.getHeaders(data);
                   }
                   window.localStorage.setItem('restaurants', JSON.stringify(data.json()));
@@ -116,7 +117,7 @@ export class ApplicationService {
                   if(data){
                       console.log(data);
                       window.localStorage.setItem('order', JSON.stringify(data.json().object));
-                      if(data.headers.toJSON()['Access-Token'] != undefined){
+                      if(data.headers.toJSON()['access-token'] != undefined){
                           this.getHeaders(data);
                       }
                       this.getOrderItems();
@@ -144,7 +145,7 @@ export class ApplicationService {
                  if(data){
                      console.log(data);
                      window.localStorage.setItem('order', JSON.stringify(data.json().object));
-                     if(data.headers.toJSON()['Access-Token'] != undefined){
+                     if(data.headers.toJSON()['access-token'] != undefined){
                          this.getHeaders(data);
                      }
                      this.getOrderItems();
@@ -175,7 +176,7 @@ export class ApplicationService {
              if(data){
                  console.log(data);
                  window.localStorage.setItem('order-items', JSON.stringify(data.json()));
-                 if(data.headers.toJSON()['Access-Token'] != undefined){
+                 if(data.headers.toJSON()['access-token'] != undefined){
                      this.getHeaders(data);
                  }
                 //  resolve(data.json());
@@ -186,4 +187,22 @@ export class ApplicationService {
          });
       });
   }
+
+  destroyOItem(item){
+      var headers = new Headers();
+      console.log(this.access_token,this.expiry,this.token_type,this.uid, this.client);
+      headers.append('Content-Type', 'application/x-www-form-urlencoded');
+      headers.append('access-token', this.access_token);
+      headers.append('expiry', this.expiry);
+      headers.append('token-type', this.token_type);
+      headers.append('uid', this.uid);
+      headers.append('client', this.client);
+      var order_id = JSON.parse(window.localStorage.getItem('order')).id;
+      var itemId = item.id;
+      return new Promise(resolve => {
+        this.http.delete(this.baseUrl + '/order_items/' +itemId)
+      })
+
+  }
 }
+
