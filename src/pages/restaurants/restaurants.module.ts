@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { RestaurantsPage } from './restaurants';
+import { IonicImageLoader } from 'ionic-image-loader';
 
 @NgModule({
   declarations: [
@@ -8,6 +9,7 @@ import { RestaurantsPage } from './restaurants';
   ],
   imports: [
     IonicPageModule.forChild(RestaurantsPage),
+    IonicImageLoader
   ],
   exports: [
     RestaurantsPage

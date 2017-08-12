@@ -11,18 +11,32 @@ export class AuthService {
     @ViewChild(Nav) nav: Nav;
     isLoggedin: boolean;
     AuthToken;
+    access_token;
+    expiry;
+    token_type;
+    uid;
+    client;
+    baseUrl;
 
     constructor(public http: Http, public storage: Storage) {
         this.http = http;
         this.storage = storage;
         this.isLoggedin = false;
         this.AuthToken = null;
+        this.access_token = undefined;
+        this.expiry = undefined;
+        this.token_type = undefined;
+        this.uid = undefined;
+        this.client = undefined;
+        //this.baseUrl = "http://localhost:3000/api/v1";
+        this.baseUrl = "https://grubvibes.herokuapp.com/api/v1";
+
     }
 
-    storeUserCredentials(token) {
-        window.localStorage.setItem('token',token);
-        console.log(token);
-        this.useCredentials(token);
+    storeUserCredentials(user) {
+        window.localStorage.setItem('user',JSON.stringify(user));
+        console.log(user);
+        this.useCredentials(user);
 
     }
     useCredentials(token) {
@@ -32,7 +46,7 @@ export class AuthService {
     }
 
     loadUserCredentials() {
-        var token = window.localStorage.getItem('token');
+        var token = window.localStorage.getItem('user');
         console.log(token);
         this.useCredentials(token);
     }
@@ -40,7 +54,9 @@ export class AuthService {
     destroyUserCredentials() {
         this.isLoggedin = false;
         this.AuthToken = null;
-        window.localStorage.removeItem('token');
+        window.localStorage.removeItem('user');
+        window.localStorage.removeItem('order');
+
 
     }
 
@@ -50,11 +66,17 @@ export class AuthService {
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
         return new Promise(resolve => {
-            this.http.post('http://localhost:3000/api/v1/auth/sign_in', creds, {headers: headers}).subscribe(data => {
-                if(data.json()){
-                    console.log(data.json().data.authentication_token);
-                    this.storeUserCredentials(data.json().data.authentication_token);
-                    resolve(data.json().data.authentication_token);
+            this.http.post(this.baseUrl +'/auth/sign_in', creds, {headers: headers}).subscribe(data => {
+                console.log(data);
+                if(data){
+                    window.localStorage.setItem('access-token', data.headers.toJSON()['access-token'][0]);
+                    window.localStorage.setItem('expiry',data.headers.toJSON()['expiry'][0]);
+                    window.localStorage.setItem('client',data.headers.toJSON()['client'][0]);
+                    window.localStorage.setItem('uid',data.headers.toJSON()['uid'][0]);
+                    window.localStorage.setItem('token-type',data.headers.toJSON()['token-type'][0]);
+                    console.log(this.access_token);
+                    this.storeUserCredentials(data.json().data);
+                    resolve(this.access_token);
                 }
                 else
                     resolve(false);
@@ -67,7 +89,7 @@ export class AuthService {
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
         return new Promise(resolve => {
-            this.http.post('http://localhost:3333/addUser', creds, {headers: headers}).subscribe(data => {
+            this.http.post(this.baseUrl + '/addUser', creds, {headers: headers}).subscribe(data => {
                 if(data.json().success){
                     resolve(true);
                 }

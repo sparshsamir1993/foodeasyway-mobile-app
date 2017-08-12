@@ -13,13 +13,14 @@ import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
-import { LoginPage } from '../pages/login/login'
-import { RegisterPage } from '../pages/register/register'
-import { LogoutPage } from '../pages/logout/logout'
-import { RestaurantsPage } from '../pages/restaurants/restaurants'
-
+import { LoginPage } from '../pages/login/login';
+import { RegisterPage } from '../pages/register/register';
+import { LogoutPage } from '../pages/logout/logout';
+import { RestaurantsPage } from '../pages/restaurants/restaurants';
+import { RestaurantItems } from '../pages/restaurant-items/restaurant-items';
+import { Order } from '../pages/order/order'
 import { User, UserDetails, IDetailedError } from '@ionic/cloud-angular';
-
+import { NavbarPage } from '../pages/navbar/navbar';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -32,12 +33,15 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     TabsPage,
     LoginPage,
     LogoutPage,
-    RestaurantsPage
+    RestaurantsPage,
+    RestaurantItems,
+    Order,
+    NavbarPage
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-     IonicStorageModule.forRoot(),
+    IonicStorageModule.forRoot(),
     HttpModule
   ],
   bootstrap: [IonicApp],
@@ -49,7 +53,10 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     TabsPage,
     LoginPage,
     LogoutPage,
-    RestaurantsPage
+    RestaurantsPage,
+    RestaurantItems,
+    Order,
+    NavbarPage
 
 
   ],
