@@ -20,12 +20,20 @@ export class NavbarPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad NavbarPage');
+    this.seeOrder();
   }
 
+   
   orderPresent(){
       var order = JSON.parse(window.localStorage.getItem('order-items'));
-      if(order){
-          this.setOrderItems(order);
+      var filteredOrder = [];
+      for(var i = 0;i<order.length; i++){
+        if(order[i].quantity > 0){
+          filteredOrder.push(order[i]);
+        }
+      }
+      if(filteredOrder){
+          this.setOrderItems(filteredOrder);
           return true;
       }
       else{
