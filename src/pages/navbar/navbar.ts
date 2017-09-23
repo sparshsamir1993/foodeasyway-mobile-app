@@ -27,10 +27,13 @@ export class NavbarPage {
   orderPresent(){
       var order = JSON.parse(window.localStorage.getItem('order-items'));
       var filteredOrder = [];
-      for(var i = 0;i<order.length; i++){
-        if(order[i].quantity > 0){
-          filteredOrder.push(order[i]);
-        }
+      if(order){
+              for(var i = 0;i<order.length; i++){
+                if(order[i].quantity > 0){
+                  filteredOrder.push(order[i]);
+                }
+              }
+
       }
       if(filteredOrder){
           this.setOrderItems(filteredOrder);
