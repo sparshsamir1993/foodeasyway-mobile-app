@@ -12,6 +12,33 @@
             <ion-card-title>
                 {{r.name}}
             </ion-card-title>
+            <ion-item>
+              <ion-grid>
+                <ion-row>
+                  <ion-col col-2>
+                    <ion-icon name="cash"></ion-icon>
+                  </ion-col>
+                  <ion-col col-10>
+                    <h2>Min. Order</h2>
+                    <h2>{{r.min_order}}</h2>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-item>
+                        <ion-item>
+              <ion-grid>
+                <ion-row>
+                  <ion-col col-2>
+                    <ion-icon ios="ios-call" md="md-call"></ion-icon>
+                  </ion-col>
+                  <ion-col col-10>
+                    <h2>Contact</h2>
+                    <h2>{{r.contact}}</h2>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-item>
+
             <!-- <h4>{{r.min}} -->
         </ion-card-content>
     </ion-card>

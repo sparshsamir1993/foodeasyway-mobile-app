@@ -9,6 +9,7 @@ import { TabsPage } from '../pages/tabs/tabs'
 import { AuthService } from '../providers/auth-service'
 import { OAuthModule } from '../pages/oauth/oauth.module';
 import { NavbarPage } from '../pages/navbar/navbar';
+import { WelcomePage } from '../pages/welcome/welcome';
 @Component({
   templateUrl: 'app.html',
   providers: [AuthService, Nav]

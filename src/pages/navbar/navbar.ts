@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Order } from '../order/order'
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
+import { AuthService } from '../../providers/auth-service';
 /**
  * Generated class for the NavbarPage page.
  *
@@ -15,14 +15,13 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class NavbarPage {
     order_items;
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public auth: AuthService) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad NavbarPage');
-    this.seeOrder();
+    this.orderPresent();
   }
-
    
   orderPresent(){
       var order = JSON.parse(window.localStorage.getItem('order-items'));
@@ -53,6 +52,19 @@ export class NavbarPage {
       var restaurants = JSON.parse(window.localStorage.getItem('restaurants'));
       console.log(order);
       console.log(restaurants);
-      this.navCtrl.push(Order,{orderId: order.id, restaurants: restaurants});
+      if(order && restaurants){
+        this.navCtrl.push(Order,{orderId: order.id, restaurants: restaurants});  
+      }
+      else{
+        order = JSON.parse(window.localStorage.getItem('order-items'));
+        if(order){
+          this.navCtrl.push(Order, {orderId: order[0].order_id, restaurants: restaurants});  
+        }
+        else{
+          this.auth.logout();
+        }
+        
+      }
+      
   }
 }

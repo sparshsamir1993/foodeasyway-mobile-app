@@ -19,6 +19,7 @@ import { LogoutPage } from '../pages/logout/logout';
 import { RestaurantsPage } from '../pages/restaurants/restaurants';
 import { RestaurantItems } from '../pages/restaurant-items/restaurant-items';
 import { Order } from '../pages/order/order'
+import { WelcomePage } from '../pages/welcome/welcome';
 import { User, UserDetails, IDetailedError } from '@ionic/cloud-angular';
 import { NavbarPage } from '../pages/navbar/navbar';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -36,7 +37,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     RestaurantsPage,
     RestaurantItems,
     Order,
-    NavbarPage
+    NavbarPage,
+    WelcomePage
   ],
   imports: [
     BrowserModule,
@@ -56,7 +58,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     RestaurantsPage,
     RestaurantItems,
     Order,
-    NavbarPage
+    NavbarPage,
+    WelcomePage
 
 
   ],

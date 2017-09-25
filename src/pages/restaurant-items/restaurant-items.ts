@@ -4,6 +4,7 @@ import { RestaurantsPage } from '../restaurants/restaurants';
 import { ApplicationService } from '../../providers/application';
 import { AuthService } from '../../providers/auth-service';
 import { HomePage } from '../home/home';
+import { Order } from '../order/order';
 /**
  * Generated class for the RestaurantItems page.
  *
@@ -20,8 +21,9 @@ import { HomePage } from '../home/home';
 export class RestaurantItems {
     items;
     order_items;
+    order_items_display;
     order_items_a;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public appy: ApplicationService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public appy: ApplicationService, public auth: AuthService) {
       var order = JSON.parse(window.localStorage.getItem('order'));
       this.order_items_a = [];
       var a =[];
@@ -85,6 +87,50 @@ export class RestaurantItems {
       else{
           return false;
       }
+  }
+
+  orderPresent(){
+      var order = JSON.parse(window.localStorage.getItem('order-items'));
+      var filteredOrder = [];
+      if(order){
+              for(var i = 0;i<order.length; i++){
+                if(order[i].quantity > 0){
+                  filteredOrder.push(order[i]);
+                }
+              }
+
+      }
+      if(filteredOrder){
+          this.setOrderItems(filteredOrder);
+          return true;
+      }
+      else{
+          return false;
+      }
+  }
+  setOrderItems(order){
+      this.order_items_display = order.length;
+      console.log(this.order_items_display)
+  }
+   seeOrder(){
+      var order = JSON.parse(window.localStorage.getItem('order'));
+      var restaurants = JSON.parse(window.localStorage.getItem('restaurants'));
+      console.log(order);
+      console.log(restaurants);
+      if(order && restaurants){
+        this.navCtrl.push(Order,{orderId: order.id, restaurants: restaurants});  
+      }
+      else{
+        order = JSON.parse(window.localStorage.getItem('order-items'));
+        if(order){
+          this.navCtrl.push(Order, {orderId: order[0].order_id, restaurants: restaurants});  
+        }
+        else{
+          this.auth.logout();
+        }
+        
+      }
+      
   }
 
 
