@@ -16,7 +16,8 @@
 <ion-content padding>
     <ion-list>
         <div *ngFor="let rest of restaurants" >
-            <ion-card>
+            
+            <ion-card *ngIf="isRestaurantInOrder(rest)">
               <ion-card-header>
                   <h1>{{rest.name}}</h1>
               </ion-card-header>

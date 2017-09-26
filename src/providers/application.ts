@@ -93,9 +93,10 @@ export class ApplicationService {
       console.log(JSON.parse(window.localStorage.getItem('order')));
       console.log(JSON.parse(window.localStorage.getItem('user')));
       var order =JSON.parse(window.localStorage.getItem('order'));
+      var order_items =JSON.parse(window.localStorage.getItem('order-items'));
       var user =JSON.parse(window.localStorage.getItem('user'));
       if(order != undefined){
-          var order_id = order.id;
+          var order_id = order_items[0].order_id;
           var headers = new Headers();
           console.log(this.access_token,this.expiry,this.token_type,this.uid, this.client);
           headers.append('Content-Type', 'application/x-www-form-urlencoded');
@@ -107,7 +108,7 @@ export class ApplicationService {
           var data = {  restaurant_id: restaurant_id,
                         item_id: item_id,
                         quantity: quantity,
-                        order_id: order.id,
+                        order_id: order_items[0].order_id,
                         user_id: user.id,
                         order_restaurant_id: restaurant_id,
                         name: name
@@ -170,7 +171,7 @@ export class ApplicationService {
       headers.append('token-type', this.token_type);
       headers.append('uid', this.uid);
       headers.append('client', this.client);
-      var order_id = JSON.parse(window.localStorage.getItem('order')).id;
+      var order_id = JSON.parse(window.localStorage.getItem('order-items'))[0].order_id;
       return new Promise(resolve=>{
          this.http.get(this.baseUrl + '/order_items/'+ order_id , {headers: headers}).subscribe(data=>{
              if(data){

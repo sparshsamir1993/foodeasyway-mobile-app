@@ -24,14 +24,20 @@ export class RestaurantItems {
     order_items_display;
     order_items_a;
   constructor(public navCtrl: NavController, public navParams: NavParams, public appy: ApplicationService, public auth: AuthService) {
-      var order = JSON.parse(window.localStorage.getItem('order'));
+    
+
+  }
+  ionViewWillEnter(){
+      
+      var orderItemInStore = JSON.parse(window.localStorage.getItem('order-items'));
+      var order_id = orderItemInStore[0].order_id;
       this.order_items_a = [];
       var a =[];
-      this.items = navParams.get('items');
-      this.order_items = navParams.get('order_items');
+      this.items = this.navParams.get('items');
+      this.order_items = this.navParams.get('order_items');
       this.order_items.map(function(x){
-          if(x && order){
-              if(x.order_id == order.id){
+          if(x && orderItemInStore){
+              if(x.order_id == order_id){
                   a.push(x.item_id);
               }
 
@@ -40,9 +46,7 @@ export class RestaurantItems {
       this.order_items_a = a;
       console.log(this.items);
       console.log(this.order_items);
-
   }
-
   ionViewDidLoad() {
     console.log('ionViewDidLoad RestaurantItems');
 
@@ -80,8 +84,8 @@ export class RestaurantItems {
       }
   }
   getQuantity(item, Oitem){
-      var order = JSON.parse(window.localStorage.getItem('order'));
-      if(item.id == Oitem.item_id && Oitem.order_id ==order.id){
+      var order_id = JSON.parse(window.localStorage.getItem('order-items'))[0].order_id;
+      if(item.id == Oitem.item_id && Oitem.order_id ==order_id){
           return true;
       }
       else{
@@ -110,7 +114,7 @@ export class RestaurantItems {
   }
   setOrderItems(order){
       this.order_items_display = order.length;
-      console.log(this.order_items_display)
+      
   }
    seeOrder(){
       var order = JSON.parse(window.localStorage.getItem('order'));

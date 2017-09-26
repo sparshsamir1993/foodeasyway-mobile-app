@@ -38,6 +38,16 @@ export class Order {
     //this.appy.destroyOItem(item);
   }
 
+  isRestaurantInOrder(rest){
+    var reply = false;
+    this.orderItems.map(function(x){
+      if(rest.id === x.restaurant.id){
+        reply =  true;
+      }
+    })
+    return reply;
+  }
+
   presentInRest(rest, item){
     if(rest.id == item.restaurant.id){ 
       return true;

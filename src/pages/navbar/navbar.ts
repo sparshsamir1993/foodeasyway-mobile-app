@@ -24,13 +24,18 @@ export class NavbarPage {
   }
    
   orderPresent(){
-      var order = JSON.parse(window.localStorage.getItem('order-items'));
+      var order_items = JSON.parse(window.localStorage.getItem('order-items'));
+      var order = JSON.parse(window.localStorage.getItem('order'));
       var filteredOrder = [];
-      if(order){
-              for(var i = 0;i<order.length; i++){
-                if(order[i].quantity > 0){
-                  filteredOrder.push(order[i]);
+      if(order_items){
+              for(var i = 0;i<order_items.length; i++){
+                if(order_items[i].quantity > 0){
+                  filteredOrder.push(order_items[i]);
                 }
+              }
+
+              if(order){
+                var orderId = order_items[0].order_id;
               }
 
       }
@@ -44,7 +49,7 @@ export class NavbarPage {
   }
   setOrderItems(order){
       this.order_items = order.length;
-      console.log(this.order_items)
+      
   }
 
   seeOrder(){
