@@ -28,17 +28,33 @@
                       <ion-col col-4>
                         <h2>{{item.name}}</h2>
                       </ion-col>
-                      <ion-col col-2 offset-4>
+                      <ion-col col-1 offset-1>
+                        X
+                      </ion-col>
+                      <ion-col col-1>
                         <h2> {{item.quantity}}</h2>
                       </ion-col>
-                      <ion-col col-2>
+                      <ion-col col-1 offset-1>
+                        {{item.total}}
+                      </ion-col>
+                      <ion-col col-2 offset-1>
                         <button ion-button color="danger" (click)="deleteOItem(item)"><ion-icon name="trash"></ion-icon> </button>
                       </ion-col>  
                     </ion-row>
                   </ion-item>
                 </ion-list>
               </ion-item-group>
-              <button ion-button color="secondary" round="true" center (click)="confirmOrder(order)"> Confirm Order? </button>
+              <ion-card-content>
+                <ion-row>
+                  <ion-col col-4>
+                    <button ion-button color="secondary" round="true" center (click)="confirmOrder(order)"> Confirm Order? </button>
+                  </ion-col>
+                  <ion-col col-4 offset-2 >
+                    <h2>Total : {{totalRest}}</h2>
+                  </ion-col>
+                </ion-row>
+              </ion-card-content>
+              
             </ion-card>
         </div>
     </ion-list>
