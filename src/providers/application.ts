@@ -96,7 +96,13 @@ export class ApplicationService {
       var order_items =JSON.parse(window.localStorage.getItem('order-items'));
       var user =JSON.parse(window.localStorage.getItem('user'));
       if(order != undefined){
-          var order_id = order_items[0].order_id;
+          if(order){
+            var order_id = order.id;
+          }
+          else if(order_items){
+            var order_id = order_items[0].order_id;
+          }
+            
           var headers = new Headers();
           console.log(this.access_token,this.expiry,this.token_type,this.uid, this.client);
           headers.append('Content-Type', 'application/x-www-form-urlencoded');
@@ -130,7 +136,8 @@ export class ApplicationService {
               });
 
           });
-      }
+        }
+      
       else{
           var headers = new Headers();
           console.log(this.access_token,this.expiry,this.token_type,this.uid, this.client);
@@ -171,7 +178,12 @@ export class ApplicationService {
       headers.append('token-type', this.token_type);
       headers.append('uid', this.uid);
       headers.append('client', this.client);
-      var order_id = JSON.parse(window.localStorage.getItem('order-items'))[0].order_id;
+      if(window.localStorage.getItem('order-items')){
+        var order_id = JSON.parse(window.localStorage.getItem('order-items'))[0].order_id;  
+      }else{
+        var order_id = JSON.parse(window.localStorage.getItem('order')).id;  
+      }
+      
       return new Promise(resolve=>{
          this.http.get(this.baseUrl + '/order_items/'+ order_id , {headers: headers}).subscribe(data=>{
              if(data){
