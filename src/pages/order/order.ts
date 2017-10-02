@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ApplicationService } from '../../providers/application';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 /**
@@ -18,7 +19,7 @@ export class Order {
     orderItems;
     totalsJson;
     totalRest;
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public appy: ApplicationService) {
       this.orderItems = JSON.parse(window.localStorage.getItem('order-items'));
       this.restaurants = navParams.get('restaurants');
       console.log(this.orderItems);
@@ -43,7 +44,16 @@ export class Order {
 
   deleteOItem(item){
     console.log(item);
-    //this.appy.destroyOItem(item);
+    this.appy.addOrderItems(item.item_id, item.restaurant.id, 0, item.name);
+    this.orderItems = JSON.parse(window.localStorage.getItem('order-items'));
+    this.getRestaurantTotal(this.orderItems);
+     for(var i = 0; i < this.orderItems.length; i++) {
+ 
+      if(this.orderItems[i].item_id == item.item_id){
+        this.orderItems.splice(i, 1);
+      }
+ 
+    }
   }
 
   isRestaurantInOrder(rest){
@@ -55,7 +65,7 @@ export class Order {
       }
     });
     if(reply){
-      this.totalRest = this.getTotalRest(rest.id);
+      this.totalRest = this.totalsJson[rest.id];
       console.log(this.totalRest);
     }
     return reply;
@@ -75,9 +85,7 @@ export class Order {
     this.totalsJson = total;
   }
   
-  getTotalRest(x){
-    return this.totalsJson.x;
-  }
+  
 
   presentInRest(rest, item){
     if(rest.id == item.restaurant.id){ 

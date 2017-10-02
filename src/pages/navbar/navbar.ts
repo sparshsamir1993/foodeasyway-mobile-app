@@ -26,8 +26,9 @@ export class NavbarPage {
   orderPresent(){
       var order_items = JSON.parse(window.localStorage.getItem('order-items'));
       var order = JSON.parse(window.localStorage.getItem('order'));
+      var user = JSON.parse(window.localStorage.getItem('user'));
       var filteredOrder = [];
-      if(order_items){
+      if(order_items && user){
               for(var i = 0;i<order_items.length; i++){
                 if(order_items[i].quantity > 0){
                   filteredOrder.push(order_items[i]);
@@ -53,16 +54,18 @@ export class NavbarPage {
   }
 
   seeOrder(){
+
       var order = JSON.parse(window.localStorage.getItem('order'));
       var restaurants = JSON.parse(window.localStorage.getItem('restaurants'));
+      var user = JSON.parse(window.localStorage.getItem('user'));
       console.log(order);
       console.log(restaurants);
-      if(order && restaurants){
+      if(order && restaurants ){
         this.navCtrl.push(Order,{orderId: order.id, restaurants: restaurants});  
       }
       else{
         order = JSON.parse(window.localStorage.getItem('order-items'));
-        if(order){
+        if(order && user){
           this.navCtrl.push(Order, {orderId: order[0].order_id, restaurants: restaurants});  
         }
         else{

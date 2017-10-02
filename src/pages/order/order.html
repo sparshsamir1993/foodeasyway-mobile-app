@@ -46,11 +46,13 @@
               </ion-item-group>
               <ion-card-content>
                 <ion-row>
+                  <ion-col col-5 offset-7 >
+                    <h2>Total : {{totalRest}}</h2>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
                   <ion-col col-4>
                     <button ion-button color="secondary" round="true" center (click)="confirmOrder(order)"> Confirm Order? </button>
-                  </ion-col>
-                  <ion-col col-4 offset-2 >
-                    <h2>Total : {{totalRest}}</h2>
                   </ion-col>
                 </ion-row>
               </ion-card-content>
