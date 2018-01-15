@@ -24,6 +24,7 @@ import { User, UserDetails, IDetailedError } from '@ionic/cloud-angular';
 import { NavbarPage } from '../pages/navbar/navbar';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { GoogleMaps } from '@ionic-native/google-maps'
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthService,
-    ApplicationService
+    ApplicationService,
+    GoogleMaps
   ]
 })
 export class AppModule {}
