@@ -21,8 +21,8 @@ export class ApplicationService {
     restaurants;
 
   constructor(public http: Http, public storage: Storage, public auth: AuthService) {
-      this.baseUrl = 'http://localhost:3000/api/v1';
-      //this.baseUrl = 'https://grubvibes.herokuapp.com/api/vi';
+      //this.baseUrl = 'http://localhost:3000/api/v1';
+      this.baseUrl = 'https://grubvibes.herokuapp.com/api/vi';
     console.log('Hello Application Provider');
     this.setHeaders();
 

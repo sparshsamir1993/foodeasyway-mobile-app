@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
 import {
@@ -10,6 +10,8 @@ import {
  MarkerOptions,
  Marker
 } from '@ionic-native/google-maps';
+import { GoogleMapsLatLng } from 'ionic-native';
+import { Geolocation } from '@ionic-native/geolocation';
 
 @Component({
   selector: 'page-about',
@@ -17,40 +19,42 @@ import {
 })
 export class AboutPage {
   map: GoogleMap;
+  lat: any;
+  lng: any;
 
-  constructor(public navCtrl: NavController, private googleMaps: GoogleMaps) { }
+  constructor(public navCtrl: NavController, private googleMaps: GoogleMaps, private geolocation: Geolocation) { }
 
   ionViewDidLoad(){
   	this.loadMap();
   }
    loadMap() {
 
-    let mapOptions: GoogleMapOptions = {
-      camera: {
-        target: {
-          lat: 43.0741904,
-          lng: -89.3809802
-        },
-        zoom: 18,
-        tilt: 30
-      }
-    };
+      this.geolocation.getCurrentPosition({ maximumAge: 3000, timeout: 5000, enableHighAccuracy: true }).then((resp) => {
+        this.lat = resp.coords.latitude
+        this.lng = resp.coords.longitude
+        console.log(this.lat+", "+this.lng);
+        let location = new GoogleMapsLatLng(resp.coords.latitude, resp.coords.longitude);
+        let mapOptions: GoogleMapOptions = {
+          camera: {
+            target: {
+              lat: this.lat,
+              lng: this.lng
+            },
+            zoom: 18
+          }
+        };
 
-    this.map = this.googleMaps.create('map_canvas', mapOptions);
+        this.map = this.googleMaps.create('map_canvas', mapOptions);
 
-    // Wait the MAP_READY before using any methods.
-    this.map.one(GoogleMapsEvent.MAP_READY)
-      .then(() => {
-        console.log('Map is ready!');
-
-        // Now you can use all methods safely.
-        this.map.addMarker({
+        this.map.on(GoogleMapsEvent.MAP_READY).subscribe(() => {
+          console.log('Map is ready!');
+          this.map.addMarker({
             title: 'Ionic',
             icon: 'blue',
             animation: 'DROP',
             position: {
-              lat: 43.0741904,
-              lng: -89.3809802
+              lat: this.lat,
+              lng: this.lng
             }
           })
           .then(marker => {
@@ -59,7 +63,10 @@ export class AboutPage {
                 alert('clicked');
               });
           });
+        });
+      }).catch((error) => {
+        console.log('Error getting location', error);
+    });
+}
 
-      });
-  }
 }

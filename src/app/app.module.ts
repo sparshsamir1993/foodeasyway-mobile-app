@@ -24,7 +24,9 @@ import { User, UserDetails, IDetailedError } from '@ionic/cloud-angular';
 import { NavbarPage } from '../pages/navbar/navbar';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { GoogleMaps } from '@ionic-native/google-maps'
+import { GoogleMaps } from '@ionic-native/google-maps';
+import { Geolocation } from '@ionic-native/geolocation';
+
 
 @NgModule({
   declarations: [
@@ -70,7 +72,8 @@ import { GoogleMaps } from '@ionic-native/google-maps'
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthService,
     ApplicationService,
-    GoogleMaps
+    GoogleMaps,
+    Geolocation
   ]
 })
 export class AppModule {}
