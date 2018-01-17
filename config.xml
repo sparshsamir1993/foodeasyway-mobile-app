@@ -78,22 +78,22 @@
         <splash height="960" src="resources/ios/splash/Default@2x~iphone.png" width="640" />
         <splash height="480" src="resources/ios/splash/Default~iphone.png" width="320" />
     </platform>
-    <plugin name="cordova-plugin-console" spec="1.0.5" />
-    <plugin name="cordova-plugin-device" spec="1.1.4" />
+    <allow-navigation href="http://192.168.1.13:8101" />
+    <plugin name="cordova-plugin-device" spec="~1.1.4" />
+    <plugin name="cordova-plugin-file" spec="~4.1.1" />
     <plugin name="cordova-plugin-file-transfer" spec="~1.5.1" />
     <plugin name="cordova-plugin-splashscreen" spec="~4.0.1" />
-    <plugin name="cordova-plugin-statusbar" spec="2.2.2" />
-    <plugin name="cordova-plugin-whitelist" spec="1.3.1" />
+    <plugin name="cordova-plugin-statusbar" spec="~2.2.2" />
+    <plugin name="cordova-plugin-whitelist" spec="~1.3.1" />
     <plugin name="cordova-sqlite-storage" spec="~2.0.4" />
     <plugin name="ionic-plugin-keyboard" spec="~2.2.1" />
     <plugin name="cordova-plugin-googlemaps" spec="^2.1.1">
-        <variable name="API_KEY_FOR_ANDROID" value="AIzaSyD5fCJd5z7DkNGex6h6n2gRTivo8oXwhWc" />
-        <variable name="API_KEY_FOR_IOS" value="AIzaSyCJ28rOb88NO_gAnhKpUW-Ne2VdgiHD-6I" />
+        <variable name="API_KEY_FOR_IOS" value="AIzaSyDj2t-nK28mZ-reiHE_wvYJMSgCtkcBY9c" />
+        <variable name="LOCATION_WHEN_IN_USE_DESCRIPTION" value="Show your location on the map" />
+        <variable name="LOCATION_ALWAYS_USAGE_DESCRIPTION" value="Trace your location on the map" />
     </plugin>
-    <plugin name="cordova-plugin-file" spec="^5.0.0" />
-    <allow-navigation href="http://192.168.1.13:8101" />
     <plugin name="cordova-plugin-geolocation" spec="^4.0.1" />
-    <engine name="ios" spec="4.5.4" />
     <engine name="browser" spec="5.0.3" />
     <engine name="android" spec="7.0.0" />
+    <engine name="ios" spec="4.5.4" />
 </widget>

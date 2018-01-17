@@ -27,6 +27,7 @@ export class NavbarPage {
       var order_items = JSON.parse(window.localStorage.getItem('order-items'));
       var order = JSON.parse(window.localStorage.getItem('order'));
       var user = JSON.parse(window.localStorage.getItem('user'));
+      debugger;
       var filteredOrder = [];
       if(order_items && user){
               for(var i = 0;i<order_items.length; i++){
