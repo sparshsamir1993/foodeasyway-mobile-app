@@ -38,6 +38,8 @@ export class AboutPage {
   placesToFilter: any;
   constructor(public navCtrl: NavController, private googleMaps: GoogleMaps, private geolocation: Geolocation, public appy: ApplicationService) { }
   ionViewDidEnter(){
+    $(".placesCard").hide();
+    $("#placeSearch").hide();
   	this.loadMap();
   }
    loadMap() {
@@ -61,8 +63,9 @@ export class AboutPage {
             map: this.map
           });     
           this.appy.getAddrs(this.lat, this.lng).then((data)=>{
-            this.myAddress = data['formatted_address'];
+            // this.myAddress = data['formatted_address'];
           });
+          $("#placeSearch").show();
           this.getPLacesArray();
     });
   }
@@ -81,17 +84,35 @@ export class AboutPage {
     this.placesToFilter = this.places;
   }
   getPoi(e){
+         if(!$(".placesCard").is(':visible')){
+            $(".placesCard").show();           
+         }
          this.setPlacesToFilter();
          let val = e.target.value;
+         if(val != undefined){
+           if(val.length == 0){
+             $(".placesCard").hide();
+             }
+            // if the value is an empty string don't filter the items
+            if (val && val.trim() != '') {
+              this.placesToFilter = this.placesToFilter.filter((item) => {
+                return (item.toLowerCase().indexOf(val.toLowerCase()) > -1);
+              })
+            }
 
-        // if the value is an empty string don't filter the items
-        if (val && val.trim() != '') {
-          this.placesToFilter = this.placesToFilter.filter((item) => {
-            return (item.toLowerCase().indexOf(val.toLowerCase()) > -1);
-          })
-        }
+         }
+         else{
+           console.log(e);
+         }
       }
   onCancel(){
+    $(".placesCard").hide();
+  }
+
+  selectPlace(item){
+    // console.log(item);
+    $("#placeSearch input").val(item);
+    this.myAddress = item;
     $(".placesCard").hide();
   }
 }

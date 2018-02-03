@@ -7,23 +7,53 @@
 </ion-header>
 
 <ion-content padding>
-    <ion-searchbar (ionInput)="getPoi($event)" (ionCancel)="onCancel($event)" showCancelButton=true class="onMap"></ion-searchbar>
-    <ion-card padding class="placesCard">
-
-        <ion-list>
-        
-            <ion-item *ngFor="let item of placesToFilter">
-              {{ item }}
-            </ion-item>
-        
-        </ion-list>
-      
-      
+    <ion-searchbar (ionInput)="getPoi($event)" (ionCancel)="onCancel($event)" id="placeSearch" showCancelButton=true class="onMap"></ion-searchbar>
+    <ion-card class="placesCard">
+      <ion-card-content>
+        <ion-scroll class="h30vh" scrollY="true">
+          <ion-list>
+          
+              <ion-item *ngFor="let item of placesToFilter" (click)="selectPlace(item)">
+                {{ item }}
+              </ion-item>
+          
+          </ion-list>
+        </ion-scroll>
+    </ion-card-content>      
     </ion-card>
     <div #map_canvas id="map_canvas"></div>
-    <ion-item></ion-item>
-    <h1>Sparsh</h1>
-    <h1>{{this.myAddress}}</h1>
+    <ion-grid>
+      <ion-row>
+
+        <ion-col text-center>
+          <h1>Your Address :</h1>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-12 col-sm>
+          <h1>Flat/House No.</h1>
+        </ion-col>
+        <ion-col col-12 col-sm>
+          <ion-list>
+            <ion-item>
+              <ion-label>Flat/House No.</ion-label>
+              <ion-input type="text"></ion-input>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col col-12 col-sm>
+          <h1>Landmark</h1><span>(select from the map)</span>
+        </ion-col>
+        <ion-col col-12  col-sm>
+          <h1>{{this.myAddress}}</h1>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    
+
     
     
 </ion-content>
