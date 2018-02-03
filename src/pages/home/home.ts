@@ -22,8 +22,13 @@ export class HomePage {
   pages: Array<{title: string, component: any}>;
   pagesNot: Array<{title: string, component: any}>;
   constructor(public navCtrl: NavController, public auth: AuthService, public appy: ApplicationService) {
-        console.log(window.localStorage.getItem('token'));
-        this.order = JSON.parse(window.localStorage.getItem('order'));
+        console.log(window.localStorage.getItem('access-token'));
+        try{
+          this.order = JSON.parse(window.localStorage.getItem('order'));          
+        }catch(e){
+          this.order ="";
+        }
+
         console.log(this.restaurants);
         this.ifOrder(this.order);
         this.pages = [

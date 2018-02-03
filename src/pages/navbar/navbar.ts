@@ -15,6 +15,7 @@ import { AuthService } from '../../providers/auth-service';
 })
 export class NavbarPage {
     order_items;
+    order : any;
   constructor(public navCtrl: NavController, public navParams: NavParams, public auth: AuthService) {
   }
 
@@ -25,18 +26,25 @@ export class NavbarPage {
    
   orderPresent(){
       var order_items = JSON.parse(window.localStorage.getItem('order-items'));
-      var order = JSON.parse(window.localStorage.getItem('order'));
+      if(order_items == null){
+        order_items = "";
+      }
+      try{
+        this.order = JSON.parse(window.localStorage.getItem('order'));            
+      }catch(e){
+        this.order = ""
+      }
+
       var user = JSON.parse(window.localStorage.getItem('user'));
-      debugger;
       var filteredOrder = [];
-      if(order_items && user){
+      if(order_items.length > 0 && user){
               for(var i = 0;i<order_items.length; i++){
                 if(order_items[i].quantity > 0){
                   filteredOrder.push(order_items[i]);
                 }
               }
 
-              if(order){
+              if(this.order){
                 var orderId = order_items[0].order_id;
               }
 
@@ -61,12 +69,13 @@ export class NavbarPage {
       var user = JSON.parse(window.localStorage.getItem('user'));
       console.log(order);
       console.log(restaurants);
+
       if(order && restaurants ){
         this.navCtrl.push(Order,{orderId: order.id, restaurants: restaurants});  
       }
       else{
         order = JSON.parse(window.localStorage.getItem('order-items'));
-        if(order && user){
+        if(order.length>0 && user.length >0){
           this.navCtrl.push(Order, {orderId: order[0].order_id, restaurants: restaurants});  
         }
         else{

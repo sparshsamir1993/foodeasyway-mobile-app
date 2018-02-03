@@ -8,7 +8,6 @@ import { IonicStorageModule } from '@ionic/storage';
 
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
-
 import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
@@ -26,6 +25,8 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { GoogleMaps } from '@ionic-native/google-maps';
 import { Geolocation } from '@ionic-native/geolocation';
+// import { NativeGeocoder } from '@ionic-native/native-geocoder';
+import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 
 
 @NgModule({
@@ -73,7 +74,8 @@ import { Geolocation } from '@ionic-native/geolocation';
     AuthService,
     ApplicationService,
     GoogleMaps,
-    Geolocation
+    Geolocation,
+    Facebook
   ]
 })
 export class AppModule {}

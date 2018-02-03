@@ -3,7 +3,7 @@ import { Storage } from '@ionic/storage';
 import { AuthService } from './auth-service'
 import {Http, Headers} from '@angular/http';
 import 'rxjs/add/operator/map';
-
+declare var google: any;
 /*
   Generated class for the Application provider.
 
@@ -21,8 +21,8 @@ export class ApplicationService {
     restaurants;
 
   constructor(public http: Http, public storage: Storage, public auth: AuthService) {
-      //this.baseUrl = 'http://localhost:3000/api/v1';
-      this.baseUrl = 'https://grubvibes.herokuapp.com/api/vi';
+      this.baseUrl = 'http://localhost:3000/api/v1';
+      //this.baseUrl = 'https://grubvibes.herokuapp.com/api/vi';
     console.log('Hello Application Provider');
     this.setHeaders();
 
@@ -47,6 +47,7 @@ export class ApplicationService {
       this.uid = window.localStorage.getItem('uid');
       this.token_type = window.localStorage.getItem('token-type');
       this.client = window.localStorage.getItem('client');
+      this.auth.setRefreshTimeout(this.expiry);
   }
 
   getRestaurants(){
@@ -95,14 +96,14 @@ export class ApplicationService {
       var order =JSON.parse(window.localStorage.getItem('order'));
       var order_items =JSON.parse(window.localStorage.getItem('order-items'));
       var user =JSON.parse(window.localStorage.getItem('user'));
-      if(order != undefined || order_items != undefined){
+      if((order != undefined && order != null) || (order_items.length >0 && order_items != undefined)){
           if(order){
             var order_id = order.order_id;
             if(!order_id){
               order_id = order.id;
             }
           }
-          else if(order_items){
+          else if(order_items.length > 0){
             var order_id = order_items[0].order_id;
           }
             
@@ -117,7 +118,7 @@ export class ApplicationService {
           var data = {  restaurant_id: restaurant_id,
                         item_id: item_id,
                         quantity: quantity,
-                        order_id: order_items[0].order_id,
+                        order_id: order_id,
                         user_id: user.id,
                         order_restaurant_id: restaurant_id,
                         name: name
@@ -181,7 +182,7 @@ export class ApplicationService {
       headers.append('token-type', this.token_type);
       headers.append('uid', this.uid);
       headers.append('client', this.client);
-      if(window.localStorage.getItem('order-items')){
+      if(window.localStorage.getItem('order-items') && JSON.parse(window.localStorage.getItem('order-items')).length > 0){
         var order_id = JSON.parse(window.localStorage.getItem('order-items'))[0].order_id;  
       }else{
         var order_id = JSON.parse(window.localStorage.getItem('order')).id;  
@@ -220,5 +221,48 @@ export class ApplicationService {
       })
 
   }
+
+    getAddrs(lat, lng) {
+      return new Promise(resolve =>{
+          var geocoder= new google.maps.Geocoder();
+          geocoder.geocode({'location': {'lat': parseFloat(lat.toFixed(5)), 'lng':parseFloat(lng.toFixed(5))}}, function(results, status) {
+              if (status === 'OK') {
+                if (results[0]) {
+
+                  console.log(results[0]);
+                  resolve(results[0]);
+                  // infowindow.open(map, marker);
+                } else {
+                  window.alert('No results found');
+                }
+              } else {
+                window.alert('Geocoder failed due to: ' + status);
+              }
+            });        
+      });
+         
+  }
+
+  getPlaces(lat, lng, map){
+    return new Promise(resolve =>{
+      var request = {
+        location: new google.maps.LatLng(lat, lng),
+        radius: '700',
+        type: ['point_of_interest']
+      };
+
+      var service = new google.maps.places.PlacesService(map);
+      service.textSearch(request, function(results, status){
+      if (status == google.maps.places.PlacesServiceStatus.OK) {
+          // for (var i = 0; i < results.length; i++) {
+          //   var place = results[i];
+          //   createMarker(results[i]);
+          // }
+          resolve(results);
+        }        
+      });
+
+    });
+  }  
 }
 

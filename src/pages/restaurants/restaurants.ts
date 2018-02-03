@@ -20,14 +20,14 @@ export class RestaurantsPage {
     baseUrl;
   constructor(public navCtrl: NavController, public navParams: NavParams, public appy: ApplicationService, public auth: AuthService) {
 
-      setInterval(function(){
-          appy.setHeaders();
-          appy.getRestaurants().then((data)=>{
+  //     setInterval(function(){
+  //         appy.setHeaders();
+  //         appy.getRestaurants().then((data)=>{
 
-          console.log(data);
-          this.restaurants = data;
-      });
-  },25000);
+  //         console.log(data);
+  //         this.restaurants = data;
+  //     });
+  // },25000);
 
   }
 
@@ -37,7 +37,7 @@ export class RestaurantsPage {
     this.showList();
     this.baseUrl = "http://localhost:3000";
     this.auth.loadUserCredentials();
-    console.log(window.localStorage.getItem('token'));
+    console.log(window.localStorage.getItem('access-token'));
     if(this.auth.isLoggedin){
         console.log('he is bro');
     }

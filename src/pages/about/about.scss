@@ -1,5 +1,18 @@
 page-about {
-
+	.onMap{
+	    position: absolute;
+	    z-index: 9;
+	    left: 1rem;
+	    width: 34rem;
+	    top: 2.5rem;
+	}
+	.placesCard{
+	    position: absolute;
+	    z-index: 9;
+	    top: 7rem;
+	    width: 80%;
+	    max-height: 40vh;
+	}
 }
 #map_canvas{
 	height: 100%;

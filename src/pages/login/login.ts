@@ -5,6 +5,7 @@ import { Nav,Platform } from 'ionic-angular';
 import { AuthService } from "../../providers/auth-service";
 import { HomePage } from '../home/home';
 import { Storage } from '@ionic/storage';
+import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 
 @Component({
   selector: 'page-login',
@@ -19,7 +20,7 @@ export class LoginPage {
   password:string = '';
   name:string = '';
 
-  constructor(public navCtrl: NavController, public auth: AuthService, public alertCtrl: AlertController, public loadingCtrl:LoadingController, public storage: Storage) {
+  constructor(public navCtrl: NavController, public auth: AuthService, public alertCtrl: AlertController, public loadingCtrl:LoadingController, public storage: Storage, public fb: Facebook) {
       console.log(window.localStorage.getItem('token'));
   }
 
@@ -35,6 +36,15 @@ export class LoginPage {
   for both of these, if the right form is showing, process the form,
   otherwise show it
   */
+  fbLogin(){
+    this.fb.login(['public_profile', 'user_friends', 'email'])
+    .then((res: FacebookLoginResponse) => console.log('Logged into Facebook!', res))
+    .catch(e => console.log('Error logging into Facebook', e));
+    
+  }
+
+
+
   doLogin() {
     if(this.showLogin) {
       console.log('process login');

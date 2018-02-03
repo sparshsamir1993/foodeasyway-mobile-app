@@ -17,7 +17,7 @@ export class AuthService {
     uid;
     client;
     baseUrl;
-
+    tokenTimeout: any;
     constructor(public http: Http, public storage: Storage) {
         this.http = http;
         this.storage = storage;
@@ -28,8 +28,8 @@ export class AuthService {
         this.token_type = undefined;
         this.uid = undefined;
         this.client = undefined;
-        //this.baseUrl = "http://localhost:3000/api/v1";
-        this.baseUrl = "https://grubvibes.herokuapp.com/api/v1";
+        this.baseUrl = "http://localhost:3000/api/v1";
+        //this.baseUrl = "https://grubvibes.herokuapp.com/api/v1";
 
     }
 
@@ -75,6 +75,8 @@ export class AuthService {
                     window.localStorage.setItem('uid',data.headers.toJSON()['uid'][0]);
                     window.localStorage.setItem('token-type',data.headers.toJSON()['token-type'][0]);
                     console.log(this.access_token);
+                    this.setRefreshTimeout(window.localStorage.getItem('expiry'));
+
                     this.storeUserCredentials(data.json().data);
                     resolve(this.access_token);
                 }
@@ -83,6 +85,19 @@ export class AuthService {
             });
         });
     }
+
+    authFB(token){
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+
+        // return new Promise(resolve => {
+        //     this.http.post(this.baseUrl + '/auth/validate_token',data,{headers: headers}).subscribe(data=>{
+
+        //     });
+        // });
+
+    }
+
     addUser(user) {
         var creds = "email=" + user.name + "&password=" + user.password;
         var headers = new Headers();
@@ -116,5 +131,13 @@ export class AuthService {
 
     logout() {
         this.destroyUserCredentials();
+        clearInterval(this.tokenTimeout);
+    }
+
+    setRefreshTimeout(exipres_in){
+        this.tokenTimeout = setTimeout(function(){
+            console.log("***STARTINGTIMER****");
+            this.authenticate(JSON.parse(window.localStorage.getItem('user')));
+        }, parseInt(exipres_in)-60);
     }
 }
