@@ -104,7 +104,7 @@ export class ApplicationService {
             }
           }
           else if(order_items.length > 0){
-            var order_id = order_items[0].order_id;
+            order_id = order_items[0].order_id;
           }
             
           var headers = new Headers();
@@ -143,7 +143,7 @@ export class ApplicationService {
         }
       
       else{
-          var headers = new Headers();
+          headers = new Headers();
           console.log(this.access_token,this.expiry,this.token_type,this.uid, this.client);
           headers.append('Content-Type', 'application/x-www-form-urlencoded');
           headers.append('access-token', this.access_token);
@@ -185,7 +185,7 @@ export class ApplicationService {
       if(window.localStorage.getItem('order-items') && JSON.parse(window.localStorage.getItem('order-items')).length > 0){
         var order_id = JSON.parse(window.localStorage.getItem('order-items'))[0].order_id;  
       }else{
-        var order_id = JSON.parse(window.localStorage.getItem('order')).id;  
+        order_id = JSON.parse(window.localStorage.getItem('order')).id;  
       }
       
       return new Promise(resolve=>{

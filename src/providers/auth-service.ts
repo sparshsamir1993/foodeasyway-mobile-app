@@ -86,15 +86,21 @@ export class AuthService {
         });
     }
 
-    authFB(token){
+    fbchecktoken(token){
         var headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
-
-        // return new Promise(resolve => {
-        //     this.http.post(this.baseUrl + '/auth/validate_token',data,{headers: headers}).subscribe(data=>{
-
-        //     });
-        // });
+        var params = "access_token="+token;
+        return new Promise(resolve => {
+            this.http.post(this.baseUrl + '/users/authenticatFacebookToken',params,{headers: headers}).subscribe(data=>{
+                if(data.json()){
+                    console.log(data);
+                    this.storeUserCredentials(data.json().object);
+                    resolve(data.json().object);
+                }else{
+                    console.log("json failed");
+                }
+            });
+        });
 
     }
 

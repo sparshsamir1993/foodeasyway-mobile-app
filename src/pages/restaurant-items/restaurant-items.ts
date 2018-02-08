@@ -30,10 +30,15 @@ export class RestaurantItems {
   ionViewWillEnter(){
       
       var orderItemInStore = JSON.parse(window.localStorage.getItem('order-items'));
-      if(orderItemInStore.length >0){
-        var order_id = orderItemInStore[0].order_id;  
-      }
+      if(orderItemInStore != null){
+
       
+        if(orderItemInStore.length >0){
+            var order_id = orderItemInStore[0].order_id;  
+        }
+     }else{
+         order_id = "";
+     }   
       this.order_items_a = [];
       var a =[];
       this.items = this.navParams.get('items');

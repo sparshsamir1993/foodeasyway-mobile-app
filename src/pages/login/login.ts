@@ -19,6 +19,7 @@ export class LoginPage {
   email:string = '';
   password:string = '';
   name:string = '';
+  accestoken:string ='';
 
   constructor(public navCtrl: NavController, public auth: AuthService, public alertCtrl: AlertController, public loadingCtrl:LoadingController, public storage: Storage, public fb: Facebook) {
       console.log(window.localStorage.getItem('token'));
@@ -38,7 +39,18 @@ export class LoginPage {
   */
   fbLogin(){
     this.fb.login(['public_profile', 'user_friends', 'email'])
-    .then((res: FacebookLoginResponse) => console.log('Logged into Facebook!', res))
+    .then((res: FacebookLoginResponse) => {
+      console.log('Logged into Facebook!', res)
+      this.accestoken = res['authResponse']['accessToken'];
+      this.auth.fbchecktoken(this.accestoken).then((data)=>{
+        console.log(data);
+        this.auth.loadUserCredentials();
+        this.navCtrl.setRoot(HomePage);
+      },(err)=>{
+        console.log(err);
+      });
+    }
+    )
     .catch(e => console.log('Error logging into Facebook', e));
     
   }
