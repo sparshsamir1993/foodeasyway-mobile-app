@@ -42,8 +42,15 @@ export class LoginPage {
     .then((res: FacebookLoginResponse) => {
       console.log('Logged into Facebook!', res)
       this.accestoken = res['authResponse']['accessToken'];
+      this.email = res['authResponse']['email'];
       this.auth.fbchecktoken(this.accestoken).then((data)=>{
         console.log(data);
+        // this.auth.validateFBtoken(this.accestoken, data['uid'], data['client']).then((data)=>{
+        //   console.log(data);
+        // },(err)=>{
+
+        // })
+        // window.localStorage.setItem('access-token',this.accestoken);
         this.auth.loadUserCredentials();
         this.navCtrl.setRoot(HomePage);
       },(err)=>{

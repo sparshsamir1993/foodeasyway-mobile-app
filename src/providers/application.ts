@@ -47,7 +47,7 @@ export class ApplicationService {
       this.uid = window.localStorage.getItem('uid');
       this.token_type = window.localStorage.getItem('token-type');
       this.client = window.localStorage.getItem('client');
-      this.auth.setRefreshTimeout(this.expiry);
+    //   this.auth.setRefreshTimeout(this.expiry);
   }
 
   getRestaurants(){
