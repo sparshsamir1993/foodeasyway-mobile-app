@@ -29,24 +29,43 @@
 
 <ion-content padding>
         <ion-list>
-            <ion-item-group menuClose  *ngFor="let item of items" >
-                <ion-item *ngIf="presentInOrder(item)">
-                    {{item.name}}
-                    <div *ngFor="let Oitem of order_items">
-                        <div *ngIf="getQuantity(item, Oitem)">
-                            <button ion-button (click)="increaseQuanO(Oitem)">+</button>
-                                {{Oitem.quantity}}
-                            <button ion-button (click)="decreaseQuanO(Oitem)">-</button>
-                        </div>
-                    </div>
-                </ion-item>
-
-                <ion-item *ngIf="!presentInOrder(item)">
-                    {{item.name}}
-                    <button ion-button (click)="increaseQuan(item)">+</button>
-                        {{item.quantity}}
-                    <button ion-button (click)="decreaseQuan(item)">-</button>
-                </ion-item>
+            <ion-item-group menuClose >
+                <div *ngFor="let item of items">
+                        <ion-item *ngIf="presentInOrder(item)">
+                                <ion-grid>
+                                    <ion-row>
+                                        <ion-col>
+                                            {{item.name}}
+                                        </ion-col>
+                                        <ion-col col-offset-4>
+                                            <div *ngFor="let Oitem of order_items">
+                                                    <div *ngIf="getQuantity(item, Oitem)">
+                                                        <button ion-button (click)="increaseQuanO(Oitem)">+</button>
+                                                            {{Oitem.quantity}}
+                                                        <button ion-button (click)="decreaseQuanO(Oitem)">-</button>
+                                                    </div>
+                                                </div>
+                                        </ion-col>
+                                    </ion-row>
+                                </ion-grid>
+                            </ion-item>
+            
+                            <ion-item *ngIf="!presentInOrder(item)">
+                                <ion-grid>
+                                    <ion-row>
+                                        <ion-col>
+                                            {{item.name}}
+                                        </ion-col>
+                                        <ion-col col-offset-4>                    
+                                            <button ion-button (click)="increaseQuan(item)">+</button>
+                                                {{item.quantity}}
+                                            <button ion-button (click)="decreaseQuan(item)">-</button>
+                                        </ion-col>
+                                    </ion-row>
+                                </ion-grid>
+                            </ion-item>
+            
+                </div>
 
             </ion-item-group>
         </ion-list>

@@ -96,6 +96,9 @@ export class ApplicationService {
       var order =JSON.parse(window.localStorage.getItem('order'));
       var order_items =JSON.parse(window.localStorage.getItem('order-items'));
       var user =JSON.parse(window.localStorage.getItem('user'));
+      if(order_items == null){
+          order_items = {};
+      }
       if((order != undefined && order != null) || (order_items.length >0 && order_items != undefined)){
           if(order){
             var order_id = order.order_id;
