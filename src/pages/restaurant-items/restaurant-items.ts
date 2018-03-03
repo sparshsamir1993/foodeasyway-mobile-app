@@ -23,6 +23,9 @@ export class RestaurantItems {
     order_items;
     order_items_display;
     order_items_a;
+    order_type_json;
+    order_type_arr;
+    types =[];
   constructor(public navCtrl: NavController, public navParams: NavParams, public appy: ApplicationService, public auth: AuthService) {
     
 
@@ -53,7 +56,37 @@ export class RestaurantItems {
       });
       this.order_items_a = a;
       console.log(this.items);
+      var itemTypeJson = {};
+      for( var item in this.items)
+      {
+        a = []
+        
+        var type = this.items[item].item_type;
+        this.types.push(type);	
+        for( var item1 in this.items)
+        {
+                if(this.items[item1].item_type === type)
+                {
+                        a.push(this.items[item1])
+                }
+            }
+            itemTypeJson[type] = a;
+      }
+      this.order_type_json = itemTypeJson;
       console.log(this.order_items);
+      console.log(this.order_type_json);
+      a= [];
+      for(var i in this.order_type_json)
+      {
+        var b = {};
+        b[i] = this.order_type_json[i]
+        a.push(b)
+      }
+      this.order_type_arr = a;
+      console.log(this.order_type_arr);
+      this.types = $.unique(this.types);
+      console.log(this.types);
+      
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad RestaurantItems');
@@ -81,7 +114,14 @@ export class RestaurantItems {
       this.appy.addOrderItems(item.item_id, item.restaurant_id, item.quantity, item.name);
 
   }
-
+  sameType(type, item){
+      if(item.item_type === type){
+          return true;
+      }
+      else{
+          return false;
+      }
+  }
 
   presentInOrder(item){
       if(this.order_items_a.includes(item.id)){

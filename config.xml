@@ -95,12 +95,6 @@
     <plugin name="cordova-plugin-geolocation" spec="~4.0.1">
         <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="To locate you" />
     </plugin>
-    <plugin name="cordova-plugin-googlemaps" spec="~2.1.1">
-        <variable name="API_KEY_FOR_ANDROID" value="AIzaSyBTyltiLuApHDq3lYuHzSXDTTGT469wjY8" />
-        <variable name="API_KEY_FOR_IOS" value="AIzaSyAtNJqNazevc-Sdjsy2IswIsjukrssM_W4" />
-        <variable name="LOCATION_WHEN_IN_USE_DESCRIPTION" value="Show your location on the map" />
-        <variable name="LOCATION_ALWAYS_USAGE_DESCRIPTION" value="Trace your location on the map" />
-    </plugin>
     <plugin name="cordova-plugin-nativegeocoder" spec="^2.0.4">
         <variable name="LOCATION_WHEN_IN_USE_DESCRIPTION" value="Use geocoder service" />
     </plugin>
@@ -108,4 +102,10 @@
     <engine name="ios" spec="^4.4.0" />
     <engine name="browser" spec="5.0.3" />
     <engine name="android" spec="7.0.0" />
+    <plugin name="cordova-plugin-googlemaps" spec="^2.1.1">
+        <variable name="API_KEY_FOR_ANDROID" value="AIzaSyC3_tU5nPLrxhQ1rhT4j31B94ZExAvAmEE" />
+        <variable name="API_KEY_FOR_IOS" value="AIzaSyCkmefOkiwoBP6f_vqB536vGEoim5Ed5d0" />
+        <variable name="LOCATION_WHEN_IN_USE_DESCRIPTION" value="Show your location on the map" />
+        <variable name="LOCATION_ALWAYS_USAGE_DESCRIPTION" value="Trace your location on the map" />
+    </plugin>
 </widget>

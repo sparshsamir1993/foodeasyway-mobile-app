@@ -25,6 +25,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { GoogleMaps } from '@ionic-native/google-maps';
 import { Geolocation } from '@ionic-native/geolocation';
+import { SuperTabsModule } from 'ionic2-super-tabs';
 // import { NativeGeocoder } from '@ionic-native/native-geocoder';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 
@@ -43,6 +44,7 @@ import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
     Order,
     NavbarPage,
     WelcomePage
+    
   ],
   imports: [
     BrowserModule,
@@ -64,8 +66,6 @@ import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
     Order,
     NavbarPage,
     WelcomePage
-
-
   ],
   providers: [
     StatusBar,
