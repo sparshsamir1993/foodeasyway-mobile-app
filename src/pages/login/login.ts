@@ -18,6 +18,7 @@ export class LoginPage {
   showLogin:boolean = true;
   email:string = '';
   password:string = '';
+  passwordConfirm:string = '';
   name:string = '';
   accestoken:string ='';
 
@@ -117,7 +118,10 @@ export class LoginPage {
       /*
       do our own initial validation
       */
-      if(this.name === '' || this.email === '' || this.password === '') {
+     console.log(this.email);
+     console.log(this.password);
+     console.log(this.passwordConfirm);
+      if(this.email === '' || this.password === '' || this.passwordConfirm === '') {
         let alert = this.alertCtrl.create({
           title:'Register Error',
           subTitle:'All fields are rquired',
@@ -127,7 +131,17 @@ export class LoginPage {
         return;
       }
 
-      let details = {'email':this.email, 'password':this.password, 'name':this.name};
+      if(this.password != this.passwordConfirm)
+      {
+        let alert = this.alertCtrl.create({
+          title:'Register Error',
+          subTitle:'Passwords do not match',
+          buttons: ['OK']
+        });
+        alert.present();
+        return;
+      }
+      let details = {'email':this.email, 'password':this.password, 'password_confirmation':this.passwordConfirm};
       console.log(details);
 
       let loader = this.loadingCtrl.create({

@@ -5,6 +5,7 @@ import { ApplicationService } from '../../providers/application';
 import { AuthService } from '../../providers/auth-service';
 import { HomePage } from '../home/home';
 import { Order } from '../order/order';
+import * as $ from 'jquery'
 /**
  * Generated class for the RestaurantItems page.
  *
@@ -33,11 +34,22 @@ export class RestaurantItems {
   ionViewWillEnter(){
       
       var orderItemInStore = JSON.parse(window.localStorage.getItem('order-items'));
+      this.order_items = this.navParams.get('order_items');
+      var order = JSON.parse(window.localStorage.getItem('order'));
+      var sameOrder = false;
       if(orderItemInStore != null){
-
-      
         if(orderItemInStore.length >0){
             var order_id = orderItemInStore[0].order_id;  
+            if(order)
+            {
+                console.log(order.id);
+                
+                if(order.id == orderItemInStore[0].order_id)
+                {
+                    sameOrder = true;
+                }
+            }  
+      
         }
      }else{
          order_id = "";
@@ -45,9 +57,9 @@ export class RestaurantItems {
       this.order_items_a = [];
       var a =[];
       this.items = this.navParams.get('items');
-      this.order_items = this.navParams.get('order_items');
+      console.log(sameOrder);
       this.order_items.map(function(x){
-          if(x && orderItemInStore){
+          if(x && orderItemInStore && sameOrder){
               if(x.order_id == order_id){
                   a.push(x.item_id);
               }

@@ -1,5 +1,62 @@
+
+@font-face{
+    src:url('https://fonts.googleapis.com/css?family=Raleway|Shadows+Into+Light+Two');
+    font-family: 'Raleway', sans-serif;
+    font-family: 'Shadows Into Light Two', cursive;
+}
+@font-face{
+    src:url('https://fonts.googleapis.com/css?family=Convergence');
+    font-family: 'Convergence', sans-serif;
+}
 page-restaurant-items {
     ion-slides {
         height: auto;
+        border: 1px solid #c4c4c4;
+        box-shadow: 4px 4px 15px 1px  rgba(0, 0, 0, 0.616);
+        width: 100%;
+        margin: 0 auto;
+        padding-top: 13%;
+        
       }
+      .addBtn{
+        width: 2em;
+        height: 2em;
+        background-color: rgb(76, 211, 87);
+      }
+      .delBtn{
+        width: 2em;
+        height: 2em;
+        background-color: rgb(212, 96, 61);
+      }
+      ion-slide{
+          height: 100%;
+          min-height: 500px;
+          width: 100%;
+      }
+      slide-zoom{
+          height: 100%;
+          width: 100%;
+      }
+      .itemNames{
+          text-transform: capitalize;   
+          font-family: 'Shadows Into Light Two';  
+        }
+    .itemtype{
+        text-transform: capitalize;
+        font-weight: 900;
+        font-size: 4rem;
+        font-family: 'Convergence';
+    }
+    .myHr{
+        width: 85%;
+    }
+    .restItems{
+        height: 5rem;
+    }
+    ion-content{
+        margin-top: 8rem;
+    }
+    .autoH{
+        height: 100vh;
+    }
 }

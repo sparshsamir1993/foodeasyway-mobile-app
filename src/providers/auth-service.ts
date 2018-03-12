@@ -65,7 +65,7 @@ export class AuthService {
         var headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
-        return new Promise(resolve => {
+        return new Promise((resolve, reject) => {
             this.http.post(this.baseUrl +'/auth/sign_in', creds, {headers: headers}).subscribe(data => {
                 console.log(data);
                 if(data){
@@ -76,12 +76,14 @@ export class AuthService {
                     window.localStorage.setItem('token-type',data.headers.toJSON()['token-type'][0]);
                     console.log(this.access_token);
                     this.setRefreshTimeout(window.localStorage.getItem('expiry'));
-
                     this.storeUserCredentials(data.json().data);
                     resolve(this.access_token);
                 }
                 else
                     resolve(false);
+            },
+            (err)=>{
+                reject(err);            
             });
         });
     }
@@ -110,33 +112,25 @@ export class AuthService {
         });
 
     }
-    // validateFBtoken(token, uid,client){
-    //     var headers = new Headers();
-    //     headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    //     var params = "access-token="+token+"&uid="+uid+"&client="+client;
-    //     return new Promise(resolve => {
-    //         this.http.get(this.baseUrl + "/auth/validate_token?"+params,{headers: headers}).subscribe(data=>{
-    //             if(data.json()){
-    //                 console.log(data);
-                   
-    //                 resolve(data.json().object);
-    //             }else{
-    //                 console.log("json failed");
-    //             }
-    //         });
-    //     });
-
-        
-    // }
     addUser(user) {
-        var creds = "email=" + user.name + "&password=" + user.password;
+        var creds = "email=" + user.email + "&password=" + user.password+ "&password_confirmation=" + user.password_confirmation;
         var headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
         return new Promise(resolve => {
-            this.http.post(this.baseUrl + '/addUser', creds, {headers: headers}).subscribe(data => {
+            this.http.post(this.baseUrl + '/auth/',creds, {headers: headers}).subscribe(data => {
                 if(data.json().success){
-                    resolve(true);
+                    console.log(data);
+                    window.localStorage.setItem('access-token', data.headers.toJSON()['access-token'][0]);
+                    window.localStorage.setItem('expiry',data.headers.toJSON()['expiry'][0]);
+                    window.localStorage.setItem('client',data.headers.toJSON()['client'][0]);
+                    window.localStorage.setItem('uid',data.headers.toJSON()['uid'][0]);
+                    window.localStorage.setItem('token-type',data.headers.toJSON()['token-type'][0]);
+                    console.log(this.access_token);
+                    this.setRefreshTimeout(window.localStorage.getItem('expiry'));
+                    this.storeUserCredentials(data.json().object);
+                    resolve(data.json().object);
+  
                 }
                 else
                     resolve(false);
@@ -161,6 +155,7 @@ export class AuthService {
 
     logout() {
         this.destroyUserCredentials();
+        window.localStorage.clear();
         clearInterval(this.tokenTimeout);
     }
 

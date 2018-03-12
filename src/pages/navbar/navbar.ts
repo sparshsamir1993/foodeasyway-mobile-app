@@ -19,7 +19,7 @@ export class NavbarPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public auth: AuthService) {
   }
 
-  ionViewDidLoad() {
+  ionViewDidEnter() {
     console.log('ionViewDidLoad NavbarPage');
     this.orderPresent();
   }
@@ -37,7 +37,7 @@ export class NavbarPage {
 
       var user = JSON.parse(window.localStorage.getItem('user'));
       var filteredOrder = [];
-      if(order_items.length > 0 && user){
+      if(order_items.length > 0 && user && this.order){
               for(var i = 0;i<order_items.length; i++){
                 if(order_items[i].quantity > 0){
                   filteredOrder.push(order_items[i]);
@@ -49,7 +49,7 @@ export class NavbarPage {
               }
 
       }
-      if(filteredOrder){
+      if(filteredOrder.length >0){
           this.setOrderItems(filteredOrder);
           return true;
       }
