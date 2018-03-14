@@ -7,7 +7,8 @@
 </ion-header>
 
 <ion-content padding>
-    <ion-searchbar (ionInput)="getPoi($event)" (ionCancel)="onCancel($event)" id="placeSearch" showCancelButton=true class="onMap"></ion-searchbar>
+    <!-- <ion-searchbar (ionCancel)="onCancel($event)" id="placeSearch" showCancelButton=true class="onMap"></ion-searchbar> -->
+    <input type="text" id="placeSearch" class="onMap"/>
     <ion-card class="placesCard">
       <ion-card-content>
         <ion-scroll class="h30vh" scrollY="true">

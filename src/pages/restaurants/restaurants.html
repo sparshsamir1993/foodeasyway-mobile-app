@@ -7,7 +7,7 @@
 
 <page-navbar></page-navbar>
 
-<ion-content padding class="mt-10p">
+<ion-content padding class="mt-4rem">
     <ion-card *ngFor="let r of restaurants"  (click)="showRestaurant(r)">
         <img src="{{baseUrl}}{{r.avatar}}" />
         <ion-card-content>

@@ -1,105 +1,79 @@
-<!--
-  Generated template for the RestaurantItems page.
 
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
-<ion-header>
-<!-- 
-  <ion-navbar>
-       <ion-grid>
-            <ion-row>
-                <ion-col col-2>
-                    <button ion-button icon-only menuToggle>
-                          <ion-icon name="menu"></ion-icon>
-                    </button>
-                </ion-col>
-                <ion-col col-8>
-                    <ion-title>Grubvibes</ion-title>
-                </ion-col>
-                <ion-col col-2 *ngIf="orderPresent()">
-                    <ion-icon id="cart" name="cart"  (click)="seeOrder()" ><ion-badge >{{this.order_items_display}}</ion-badge></ion-icon>
-                </ion-col>
-            </ion-row>
-        </ion-grid>
-  </ion-navbar> -->
-  <page-navbar></page-navbar>
-</ion-header>
-
-
+<page-navbar></page-navbar>
 <ion-content padding>
-    <ion-scroll class="autoH" scrollY="true">
-            <ion-slides pager=true>
-                    <ion-slide  *ngFor="let type of types">
-                        <h1 class="itemtype">{{type}}</h1>
-                        <hr class="myHr">
-                        <ion-list>
-                                <ion-item-group menuClose >
+    
+    <ion-slides pager=true>
+            <ion-slide  *ngFor="let type of types">
+                <ion-scroll class="vh70" scrollY="true">
+                    <h1 class="itemtype">{{type}}</h1>
+                    <hr class="myHr">
+                    <ion-list>
+                            <ion-item-group menuClose >
+                
+                                <div *ngFor="let item of items">
+                                    <ion-item class="restItems" *ngIf="presentInOrder(item) && sameType(type,item)">
+                                            <ion-grid>
+                                                <ion-row>
+                                                    <ion-col col-6 text-wrap class="itemNames">
+                                                        {{item.name}}
+                                                    </ion-col>
+                                                    <ion-col col-6 >
+                                                        <div *ngFor="let Oitem of order_items">
+                                                                <div *ngIf="getQuantity(item, Oitem)">
+                                                                    <ion-grid>
+                                                                            <ion-row>
+                                                                                    <ion-col col-4>
+                                                                                            <button class="addBtn" ion-button (click)="increaseQuanO(Oitem)">+</button>
+                                                                                    </ion-col>
+                                                                                    <ion-col col-2 text-center>
+                                                                                            {{Oitem.quantity}}
+                                                                                    </ion-col>
+                                                                                    <ion-col col-4>
+                                                                                            <button class="delBtn" ion-button (click)="decreaseQuanO(Oitem)">-</button>
+                                                                                    </ion-col>
+                                                                                </ion-row>
                     
-                                    <div *ngFor="let item of items">
-                                        <ion-item class="restItems" *ngIf="presentInOrder(item) && sameType(type,item)">
-                                                <ion-grid>
-                                                    <ion-row>
-                                                        <ion-col col-6 text-wrap class="itemNames">
-                                                            {{item.name}}
-                                                        </ion-col>
-                                                        <ion-col col-6 >
-                                                            <div *ngFor="let Oitem of order_items">
-                                                                    <div *ngIf="getQuantity(item, Oitem)">
-                                                                        <ion-grid>
-                                                                                <ion-row>
-                                                                                        <ion-col col-4>
-                                                                                                <button class="addBtn" ion-button (click)="increaseQuanO(Oitem)">+</button>
-                                                                                        </ion-col>
-                                                                                        <ion-col col-2 text-center>
-                                                                                                {{Oitem.quantity}}
-                                                                                        </ion-col>
-                                                                                        <ion-col col-4>
-                                                                                                <button class="delBtn" ion-button (click)="decreaseQuanO(Oitem)">-</button>
-                                                                                        </ion-col>
-                                                                                    </ion-row>
-                         
-                                                                        </ion-grid>
-                                                                    </div>
+                                                                    </ion-grid>
                                                                 </div>
-                                                        </ion-col>
-                                                    </ion-row>
-                                                </ion-grid>
-                                            </ion-item>
-                            
-                                            <ion-item  class="restItems" *ngIf="!presentInOrder(item) && sameType(type,item)">
-                                                <ion-grid>
-                                                    <ion-row>
-                                                        <ion-col col-6 text-wrap class="itemNames">
-                                                            {{item.name}}
-                                                        </ion-col>
-                                                        <ion-col col-6>
-                                                            <ion-grid>
-                                                                <ion-row>
-                                                                    <ion-col col-4 >                    
-                                                                        <button ion-button class="addBtn" (click)="increaseQuan(item)">+</button>
-                                                                    </ion-col>
-                                                                    <ion-col col-2 text-center>
-                                                                            {{item.quantity}}
-                                                                    </ion-col>
-                                                                    <ion-col col-4 >
-                                                                        <button ion-button class="delBtn" (click)="decreaseQuan(item)">-</button>
-                                                                    </ion-col>
-                                                                                    
-                                                                </ion-row>
-                                                            </ion-grid>
-                                                        </ion-col>
-                                                    </ion-row>
-                                                </ion-grid>
-                                            </ion-item>
-                                    </div>
-                    
-                                </ion-item-group>
-                        </ion-list>
-                                
-                    </ion-slide>
-                </ion-slides>
-    </ion-scroll>
+                                                            </div>
+                                                    </ion-col>
+                                                </ion-row>
+                                            </ion-grid>
+                                        </ion-item>
+                        
+                                        <ion-item  class="restItems" *ngIf="!presentInOrder(item) && sameType(type,item)">
+                                            <ion-grid>
+                                                <ion-row>
+                                                    <ion-col col-6 text-wrap class="itemNames">
+                                                        {{item.name}}
+                                                    </ion-col>
+                                                    <ion-col col-6>
+                                                        <ion-grid>
+                                                            <ion-row>
+                                                                <ion-col col-4 >                    
+                                                                    <button ion-button class="addBtn" (click)="increaseQuan(item)">+</button>
+                                                                </ion-col>
+                                                                <ion-col col-2 text-center>
+                                                                        {{item.quantity}}
+                                                                </ion-col>
+                                                                <ion-col col-4 >
+                                                                    <button ion-button class="delBtn" (click)="decreaseQuan(item)">-</button>
+                                                                </ion-col>
+                                                                                
+                                                            </ion-row>
+                                                        </ion-grid>
+                                                    </ion-col>
+                                                </ion-row>
+                                            </ion-grid>
+                                        </ion-item>
+                                </div>
+                
+                            </ion-item-group>
+                    </ion-list>
+                </ion-scroll>                                
+            </ion-slide>
+        </ion-slides>
+
 
     <!-- <ion-list>
         <ion-item-group menuClose >

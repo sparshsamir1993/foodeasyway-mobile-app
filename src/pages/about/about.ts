@@ -47,6 +47,7 @@ export class AboutPage {
       this.geolocation.getCurrentPosition({ maximumAge: 30000, timeout: 50000, enableHighAccuracy: true }).then((resp) => {
         this.lat = resp.coords.latitude
         this.lng = resp.coords.longitude
+        var autocomplete: any;
         console.log(this.lat+", "+this.lng);
         
           var point = {lat: this.lat, lng: this.lng};
@@ -65,6 +66,18 @@ export class AboutPage {
           this.appy.getAddrs(this.lat, this.lng).then((data)=>{
             // this.myAddress = data['formatted_address'];
           });
+          var defaultBounds = new google.maps.LatLngBounds(
+            new google.maps.LatLng(this.lat-1, this.lng-1),
+            new google.maps.LatLng(this.lat+1, this.lng+1)
+          );
+          
+          var input = document.getElementById('placeSearch');
+          var options = {
+            bounds: defaultBounds,
+            types: ['geocode']
+          };
+          
+          autocomplete = new google.maps.places.Autocomplete(input, options);
           $("#placeSearch").show();
           this.getPLacesArray();
     });

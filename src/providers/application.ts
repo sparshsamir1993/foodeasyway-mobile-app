@@ -250,8 +250,8 @@ export class ApplicationService {
     return new Promise(resolve =>{
       var request = {
         location: new google.maps.LatLng(lat, lng),
-        radius: '700',
-        type: ['point_of_interest']
+        radius: '3000',
+        type: ['lodging']
       };
 
       var service = new google.maps.places.PlacesService(map);
