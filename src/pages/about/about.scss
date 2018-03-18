@@ -17,7 +17,13 @@ page-about {
 	.h30vh{
 		height: 30vh;
 	}
+	#infowindow-content {
+        display: none;
+      }
+      #map_canvas #infowindow-content {
+        display: inline;
+      }
 }
 #map_canvas{
-	height: 50%;
+	height: 35rem;
 }

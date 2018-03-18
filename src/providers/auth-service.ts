@@ -64,7 +64,7 @@ export class AuthService {
         var creds = "email=" + user.email + "&password=" + user.password;
         var headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
-
+        var self = this;
         return new Promise((resolve, reject) => {
             this.http.post(this.baseUrl +'/auth/sign_in', creds, {headers: headers}).subscribe(data => {
                 console.log(data);
@@ -75,8 +75,8 @@ export class AuthService {
                     window.localStorage.setItem('uid',data.headers.toJSON()['uid'][0]);
                     window.localStorage.setItem('token-type',data.headers.toJSON()['token-type'][0]);
                     console.log(this.access_token);
-                    this.setRefreshTimeout(window.localStorage.getItem('expiry'));
-                    this.storeUserCredentials(data.json().data);
+                    self.setRefreshTimeout(parseInt(window.localStorage.getItem('expiry')));
+                    self.storeUserCredentials(data.json().data);
                     resolve(this.access_token);
                 }
                 else
@@ -160,9 +160,13 @@ export class AuthService {
     }
 
     setRefreshTimeout(exipres_in){
+        var self = this;
         this.tokenTimeout = setTimeout(function(){
             console.log("***STARTINGTIMER****");
-            this.authenticate(JSON.parse(window.localStorage.getItem('user')));
+            if(JSON.parse(window.localStorage.getItem('user'))){
+                self.authenticate(JSON.parse(window.localStorage.getItem('user')));
+            }
+
         }, parseInt(exipres_in)-60);
     }
 }

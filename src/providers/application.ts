@@ -47,7 +47,7 @@ export class ApplicationService {
       this.uid = window.localStorage.getItem('uid');
       this.token_type = window.localStorage.getItem('token-type');
       this.client = window.localStorage.getItem('client');
-    //   this.auth.setRefreshTimeout(this.expiry);
+      this.auth.setRefreshTimeout(this.expiry);
   }
 
   getRestaurants(){
@@ -246,6 +246,39 @@ export class ApplicationService {
          
   }
 
+  getUserAddress(user_id){
+    var headers = new Headers();
+    console.log(this.access_token,this.expiry,this.token_type,this.uid, this.client);
+    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+    headers.append('access-token', this.access_token);
+    headers.append('expiry', this.expiry);
+    headers.append('token-type', this.token_type);
+    headers.append('uid', this.uid);
+    headers.append('client', this.client);
+
+    return new Promise(resolve =>{
+        this.http.get(this.baseUrl + '/addresses?user_id='+user_id , {headers: headers}).subscribe(data=>{
+            resolve(data.json());
+        });
+    });
+  }
+
+  addAddress(full_address, lng, lat, name, user_id){
+    var headers = new Headers();
+    console.log(this.access_token,this.expiry,this.token_type,this.uid, this.client);
+    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+    headers.append('access-token', this.access_token);
+    headers.append('expiry', this.expiry);
+    headers.append('token-type', this.token_type);
+    headers.append('uid', this.uid);
+    headers.append('client', this.client);
+
+    return new Promise(resolve =>{
+        this.http.post(this.baseUrl + '/addresses?full_address='+ full_address+'&lng='+lng+'&lat='+lat+'&name='+name+'&user_id='+user_id , {headers: headers}).subscribe(data=>{
+            resolve(data);
+        });
+      });
+  }
   getPlaces(lat, lng, map){
     return new Promise(resolve =>{
       var request = {

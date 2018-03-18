@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController , AlertController, LoadingController } from 'ionic-angular';
 import { ApplicationService } from '../../providers/application';
+import { AddressesPage } from '../addresses/addresses';
 import {
  GoogleMaps,
  GoogleMap,
@@ -21,9 +22,10 @@ declare var google: any;
 })
 export class AboutPage {
   
-  map: GoogleMap;
+  map: any;
   lat: any;
   lng: any;
+  marker: any;
     // country: any;
     // postalcode: any;
     // administrativeArea : any;
@@ -32,17 +34,79 @@ export class AboutPage {
     // subLocality :any;
     // thoroughfare: any;
     // subthoroughfare: any;
-  myAddress: any;
+  place_id: any;
+  landmark: any;
   placesObj: any;
   places: any;
   placesToFilter: any;
-  constructor(public navCtrl: NavController, private googleMaps: GoogleMaps, private geolocation: Geolocation, public appy: ApplicationService) { }
+  fullAddress: any;
+  street: any;
+  name: any;
+  constructor(public navCtrl: NavController, private googleMaps: GoogleMaps, private geolocation: Geolocation, public appy: ApplicationService, public alertCtrl: AlertController) { }
   ionViewDidEnter(){
     $(".placesCard").hide();
-    $("#placeSearch").hide();
-  	this.loadMap();
+    $("#pac-input").hide();
+    this.loadMap();
   }
-   loadMap() {
+  setLandmark(check){
+    if(check){
+      this.landmark;
+    }else{
+      if($("#pac-input").val().length>0){
+        this.landmark = $("#pac-input").val();
+      }else{
+        this.landmark;
+      }
+
+    }
+    
+    console.log($("#pac-input").val());
+  }
+
+  setFullAdddress(){
+    this.fullAddress = this.street +" " + this.landmark;
+    console.log(this.fullAddress);
+  }
+
+  toAddressPage(){
+    var user_id = JSON.parse(window.localStorage.getItem('user'))['id'];
+    if(this.street == '' || this.landmark == '' || this.street == undefined || this.landmark == undefined)
+    {
+      let alert = this.alertCtrl.create({
+        title:'Missing',
+        subTitle: 'Please provide both the fields',
+        buttons:['OK']
+      });
+      alert.present();
+      return;
+    }
+    else if(!user_id || user_id.length < 1){
+      let alert = this.alertCtrl.create({
+        title:'Not Logged In',
+        subTitle: 'Please Login to save your Address',
+        buttons:['OK']
+      });
+      alert.present();
+      return;
+    }
+    else{
+      this.setFullAdddress();
+    }
+    this.navCtrl.push(AddressesPage,{
+      full_adrress: this.fullAddress,
+      lat: this.lat,
+      lng: this.lng,
+      fromNewAddress: true
+    });
+  }
+
+  reverseGeocode(latlng){
+    new google.maps.Geocoder.geocode({'location': latlng}, function(results, status) {
+      console.log(results);
+    });
+  }
+
+  loadMap() {
 
       this.geolocation.getCurrentPosition({ maximumAge: 30000, timeout: 50000, enableHighAccuracy: true }).then((resp) => {
         this.lat = resp.coords.latitude
@@ -56,29 +120,102 @@ export class AboutPage {
           center: point,
           zoom: 15,
           disableDefaultUI: true,
-          draggable: false,
+          draggable: true,
           zoomControl: true
           });
-          var marker = new google.maps.Marker({
+          this.marker = new google.maps.Marker({
             position: point,
-            map: this.map
+            map: this.map,
+            draggable: true,
+            animation: google.maps.Animation.DROP,
           });     
           this.appy.getAddrs(this.lat, this.lng).then((data)=>{
-            // this.myAddress = data['formatted_address'];
+            // this.landmark = data['formatted_address'];
           });
           var defaultBounds = new google.maps.LatLngBounds(
-            new google.maps.LatLng(this.lat-1, this.lng-1),
-            new google.maps.LatLng(this.lat+1, this.lng+1)
+            new google.maps.LatLng(this.lat-2, this.lng-2),
+            new google.maps.LatLng(this.lat+2, this.lng+2)
           );
+          let mainThis = this;
+          this.marker.addListener('click', function() {
+            mainThis.map.setZoom(8);
+            console.log('clicked');
+            mainThis.map.setCenter(mainThis.marker.getPosition());
+          });
           
-          var input = document.getElementById('placeSearch');
+          var input = document.getElementById('pac-input');
           var options = {
             bounds: defaultBounds,
             types: ['geocode']
           };
           
           autocomplete = new google.maps.places.Autocomplete(input, options);
-          $("#placeSearch").show();
+          var infowindow = new google.maps.InfoWindow();
+          var infowindowContent = document.getElementById('infowindow-content');
+          infowindow.setContent(infowindowContent);
+          this.marker.addListener('click', function() {
+            infowindow.open(this.map, this.marker);
+          });
+         
+          var tempMap = this.map;
+          
+          // this.marker.addListener('click', function(){
+          //   if (mainThis.marker.getAnimation() !== null) {
+          //     mainThis.marker.setAnimation(null);
+          //   } else {
+          //     mainThis.marker.setAnimation(google.maps.Animation.DROP);
+          //   }
+          // });
+          console.log(mainThis.marker.getPosition());
+          var tempLand = this.landmark;
+          
+          google.maps.event.addListener(mainThis.marker, 'dragend', function(data){
+            
+            var position =  mainThis.marker.getPosition();
+            this.lat = position.lat();
+            this.lng = position.lng();
+            var latlng = {lat: this.lat, lng: this.lng};
+            var geocoder = new google.maps.Geocoder;
+            geocoder.geocode({'location': latlng}, function(results, status) {
+              console.log(results);
+              mainThis.landmark = results[0]['formatted_address'];
+              mainThis.setLandmark(true);
+              mainThis.setFullAdddress();
+
+            });
+          });
+          
+          autocomplete.addListener('place_changed', function() {
+            infowindow.close();
+            var place = autocomplete.getPlace();
+            if (!place.geometry) {
+              return;
+            }
+            if (mainThis.marker.getAnimation() !== null) {
+              mainThis.marker.setAnimation(null);
+            } else {
+              mainThis.marker.setAnimation(google.maps.Animation.DROP);
+            }
+            if (place.geometry.viewport) {
+              tempMap.fitBounds(place.geometry.viewport);
+            } else {
+              tempMap.setCenter(place.geometry.location);
+              tempMap.setZoom(17);
+            }
+  
+            // Set the position of the this.marker using the place ID and location.
+            mainThis.marker.setPosition(place.geometry.location);
+            mainThis.marker.setVisible(true);
+  
+            infowindowContent.children['place-name'].textContent = place.name;
+            infowindowContent.children['place-id'].textContent = place.place_id;
+            infowindowContent.children['place-address'].textContent =
+                place.formatted_address;
+            infowindow.open(this.map, this.marker);
+          });
+          this.map = tempMap;
+          this.marker = mainThis.marker;
+          $("#pac-input").show();
           this.getPLacesArray();
     });
   }
@@ -124,8 +261,8 @@ export class AboutPage {
 
   selectPlace(item){
     // console.log(item);
-    $("#placeSearch input").val(item);
-    this.myAddress = item;
+    $("#pac-input input").val(item);
+    this.landmark = item;
     $(".placesCard").hide();
   }
 }

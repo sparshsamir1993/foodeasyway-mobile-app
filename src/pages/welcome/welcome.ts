@@ -1,3 +1,4 @@
+import { ApplicationService } from './../../providers/application';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
@@ -14,11 +15,25 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class WelcomePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public appy: ApplicationService) {
   }
 
   ionViewDidLoad() {
+    this.getUserAddress();
     console.log('ionViewDidLoad WelcomePage');
   }
+  getUserAddress()
+  {
+    var user_id = JSON.parse(window.localStorage.getItem('user'))['id'];
+    console.log(user_id);
+    if(user_id)
+    {
+      this.appy.getUserAddress(user_id).then((data)=>{
+        console.log(data);
+        window.localStorage.setItem('addresses', JSON.stringify(data));
+      })
+    }
+  }
+
 
 }

@@ -1,3 +1,4 @@
+import { AddressesPage } from './../addresses/addresses';
 import { Component , ViewChild} from '@angular/core';
 import { Nav,Platform } from 'ionic-angular';
 import { NavController} from 'ionic-angular';
@@ -6,8 +7,8 @@ import { ApplicationService } from "../../providers/application";
 import { NavbarPage } from '../pages/navbar/navbar';
 import { LoginPage } from '../login/login';
 import { LogoutPage } from '../logout/logout';
-import { RestaurantsPage } from '../restaurants/restaurants'
-import { Order } from '../order/order'
+import { RestaurantsPage } from '../restaurants/restaurants';
+import { Order } from '../order/order';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
@@ -28,24 +29,30 @@ export class HomePage {
         }catch(e){
           this.order ="";
         }
-
+        
         console.log(this.restaurants);
         this.ifOrder(this.order);
         this.pages = [
                   { title: 'Home', component: HomePage },
                   { title: 'Restaurants', component: RestaurantsPage},
+                  { title: 'Saved Addresses', component: AddressesPage},
                   { title: 'Logout', component: LogoutPage}
+                  
                 ];
         this.pagesNot = [
                   { title: 'Login', component: LoginPage },
                   { title: 'Home', component: HomePage }
                 ];
-
   }
 
-      ionViewDidLoad() {
+      ionViewWillEnter() {
         console.log('ionViewDidLoad Home');
         this.ifOrder(this.order);
+        if(JSON.parse(window.localStorage.getItem('user')))
+        {
+            this.getUserAddress();
+        }
+
       }
 
       ifOrder(order){
@@ -74,7 +81,18 @@ export class HomePage {
         // we wouldn't want the back button to show in this scenario
         this.navCtrl.push(page.component);
       }
-
+      getUserAddress()
+      {
+        var user_id = JSON.parse(window.localStorage.getItem('user'))['id'];
+        console.log(user_id);
+        if(user_id)
+        {
+          this.appy.getUserAddress(user_id).then((data)=>{
+            console.log(data);
+            window.localStorage.setItem('addresses', JSON.stringify(data));
+          })
+        }
+      }
       authenticated(){
           if(window.localStorage.getItem('user')){
               return true;

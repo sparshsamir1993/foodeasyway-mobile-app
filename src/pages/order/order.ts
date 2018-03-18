@@ -92,4 +92,10 @@ export class Order {
       return true;
     }
   }
+  confirmOrder(order)
+  {
+    var self = this;
+    // var addresses = ;
+  }
+
 }

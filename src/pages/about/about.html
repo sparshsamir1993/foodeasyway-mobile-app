@@ -8,21 +8,13 @@
 
 <ion-content padding>
     <!-- <ion-searchbar (ionCancel)="onCancel($event)" id="placeSearch" showCancelButton=true class="onMap"></ion-searchbar> -->
-    <input type="text" id="placeSearch" class="onMap"/>
-    <ion-card class="placesCard">
-      <ion-card-content>
-        <ion-scroll class="h30vh" scrollY="true">
-          <ion-list>
-          
-              <ion-item *ngFor="let item of placesToFilter" (click)="selectPlace(item)">
-                {{ item }}
-              </ion-item>
-          
-          </ion-list>
-        </ion-scroll>
-    </ion-card-content>      
-    </ion-card>
-    <div #map_canvas id="map_canvas"></div>
+    <input type="text" id="pac-input" class="onMap"/>
+    <div id="infowindow-content">
+        <span id="place-name"  class="title"></span><br>
+        Place ID <span id="place-id"></span><br>
+        <span id="place-address"></span>
+    </div>
+    <div #map_canvas id="map_canvas" (touchmove)="setLandmark(true)"></div>
     <ion-grid>
       <ion-row>
 
@@ -38,7 +30,7 @@
           <ion-list>
             <ion-item>
               <ion-label>Flat/House No.</ion-label>
-              <ion-input type="text"></ion-input>
+              <ion-input type="text" [(ngModel)]="street" (focus)="setLandmark()"></ion-input>
             </ion-item>
           </ion-list>
         </ion-col>
@@ -49,11 +41,12 @@
           <h1>Landmark</h1><span>(select from the map)</span>
         </ion-col>
         <ion-col col-12  col-sm>
-          <h1>{{this.myAddress}}</h1>
+          <ion-input [(ngModel)]="landmark" [hidden]="true"></ion-input>
+          <h1>{{this.landmark}}</h1>
         </ion-col>
       </ion-row>
     </ion-grid>
-    
+    <button ion-button (click)="toAddressPage()">Save Address</button>
 
     
     
