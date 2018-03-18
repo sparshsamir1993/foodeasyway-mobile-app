@@ -1,8 +1,10 @@
+import { NavbarPage } from './../navbar/navbar';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ApplicationService } from '../../providers/application';
 import { AuthService } from '../../providers/auth-service';
 import { RestaurantItems } from '../restaurant-items/restaurant-items';
+
 /**
  * Generated class for the Restaurants page.
  *
@@ -56,7 +58,6 @@ export class RestaurantsPage {
   }
 
   showRestaurant(rest){
-      var order = JSON.parse(window.localStorage.getItem('order'));
       this.navCtrl.push(RestaurantItems,{items:rest.items, order_items: rest.order_items});
   }
 

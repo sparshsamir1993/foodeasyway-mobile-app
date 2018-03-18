@@ -1,3 +1,5 @@
+import { PreviousOrdersPage } from './../pages/previous-orders/previous-orders';
+import { AddressEditPage } from './../pages/addresses/address-edit/address-edit';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { AuthService } from "../providers/auth-service"
 import { ApplicationService } from "../providers/application"
@@ -27,8 +29,10 @@ import { GoogleMaps } from '@ionic-native/google-maps';
 import { Geolocation } from '@ionic-native/geolocation';
 import { SuperTabsModule } from 'ionic2-super-tabs';
 import { AddressesPage } from '../pages/addresses/addresses';
+
 // import { NativeGeocoder } from '@ionic-native/native-geocoder';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
+import { OrderStatusPage } from '../pages/order-status/order-status';
 
 
 @NgModule({
@@ -45,7 +49,10 @@ import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
     Order,
     NavbarPage,
     WelcomePage,
-    AddressesPage  
+    AddressesPage  ,
+    AddressEditPage,
+    OrderStatusPage,
+    PreviousOrdersPage
   ],
   imports: [
     BrowserModule,
@@ -67,7 +74,10 @@ import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
     Order,
     NavbarPage,
     WelcomePage,
-    AddressesPage
+    AddressesPage,
+    AddressEditPage,
+    OrderStatusPage,
+    PreviousOrdersPage
   ],
   providers: [
     StatusBar,

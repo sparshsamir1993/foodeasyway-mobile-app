@@ -91,15 +91,15 @@ export class ApplicationService {
       return(rest);
   }
   addOrderItems(item_id,restaurant_id,quantity, name){
-      console.log(JSON.parse(window.localStorage.getItem('order')));
+      console.log(JSON.parse((window.localStorage.getItem('order') && window.localStorage.getItem('order') != "undefined")?window.localStorage.getItem('order'): "{}"));
       console.log(JSON.parse(window.localStorage.getItem('user')));
-      var order =JSON.parse(window.localStorage.getItem('order'));
-      var order_items =JSON.parse(window.localStorage.getItem('order-items'));
+      var order =JSON.parse((window.localStorage.getItem('order') && window.localStorage.getItem('order') != "undefined")?window.localStorage.getItem('order'): "{}");
+      var order_items =JSON.parse((window.localStorage.getItem('order-items') && window.localStorage.getItem('order-items') != "undefined")?window.localStorage.getItem('order-items'): "{}");
       var user =JSON.parse(window.localStorage.getItem('user'));
       if(order_items == null){
           order_items = {};
       }
-      if((order != undefined && order != null) || (order_items.length >0 && order_items != undefined)){
+      if((order != undefined && order != null && order != "undefined") && (order_items.length >0 && order_items != undefined && order_items != "undefined")){
           if(order){
             var order_id = order.order_id;
             if(!order_id){
@@ -300,5 +300,63 @@ export class ApplicationService {
 
     });
   }  
-}
 
+  confirmOrder(order_restaurant, grand_total)
+  {
+    var headers = new Headers();
+    console.log(this.access_token,this.expiry,this.token_type,this.uid, this.client);
+    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+    headers.append('access-token', this.access_token);
+    headers.append('expiry', this.expiry);
+    headers.append('token-type', this.token_type);
+    headers.append('uid', this.uid);
+    headers.append('client', this.client);
+
+    var order_restaurant_id = order_restaurant.id;
+    var order_id = order_restaurant.order_id;
+    return new Promise(resolve =>{
+        this.http.post(this.baseUrl+'/order_restaurants/'+order_restaurant_id+'/user_order_confirm?grand_total='+grand_total+'&order_restaurant_id='+order_restaurant_id+'&order_id='+order_id , {headers: headers}).subscribe(data =>{
+            if(data){
+                resolve(data);
+            }
+            else{
+
+            }
+        },
+        err=>{
+            console.log(err);
+    
+         
+        });
+    });
+  }
+  getOrderStatus(o_r_id){
+    var headers = new Headers();
+    console.log(this.access_token,this.expiry,this.token_type,this.uid, this.client);
+    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+    headers.append('access-token', this.access_token);
+    headers.append('expiry', this.expiry);
+    headers.append('token-type', this.token_type);
+    headers.append('uid', this.uid);
+    headers.append('client', this.client);
+
+    var order_restaurant_id = o_r_id;
+    return new Promise(resolve =>{
+        this.http.get(this.baseUrl+'/order_restaurants/'+order_restaurant_id, {headers: headers}).subscribe(data =>{
+            if(data){
+                console.log(data);
+                resolve(data.json());
+            }
+            else{
+
+            }
+        },
+        err=>{
+            console.log(err);
+    
+            
+        });
+    });
+    
+  }
+}

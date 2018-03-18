@@ -1,0 +1,26 @@
+<page-navbar></page-navbar>
+<ion-content>
+    <input type="text" id="pac-input" class="onMap"/>
+    <div id="infowindow-content">
+        <span id="place-name"  class="title"></span><br>
+        <span id="place-id"></span><br>
+        <span id="place-address"></span>
+    </div>
+
+    <div #map_canvas id="map_canvas"></div>
+    <ion-card>
+        <ion-card-header>
+            <h3>Edit Address</h3>
+        </ion-card-header>
+        <ion-card-content text-wrap>
+            <ion-list>
+                <ion-item>
+                    <ion-label stacked>
+                        Street/House No./Locality
+                    </ion-label>
+                    <ion-input [value]="oldaddress.full_address"></ion-input>
+                </ion-item>
+            </ion-list>
+        </ion-card-content>
+    </ion-card>
+</ion-content>

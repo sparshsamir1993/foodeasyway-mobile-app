@@ -42,10 +42,15 @@ export class AboutPage {
   fullAddress: any;
   street: any;
   name: any;
-  constructor(public navCtrl: NavController, private googleMaps: GoogleMaps, private geolocation: Geolocation, public appy: ApplicationService, public alertCtrl: AlertController) { }
+  constructor(public navCtrl: NavController, private googleMaps: GoogleMaps, private geolocation: Geolocation, public appy: ApplicationService, public alertCtrl: AlertController, public loadingCtrl: LoadingController) { 
+    
+  }
   ionViewDidEnter(){
     $(".placesCard").hide();
     $("#pac-input").hide();
+   
+  }
+  ionViewDidLoad(){
     this.loadMap();
   }
   setLandmark(check){
@@ -107,11 +112,15 @@ export class AboutPage {
   }
 
   loadMap() {
-
-      this.geolocation.getCurrentPosition({ maximumAge: 30000, timeout: 50000, enableHighAccuracy: true }).then((resp) => {
+    let loader = this.loadingCtrl.create({
+      content: "Locating You..."
+    });
+    loader.present();
+    this.geolocation.getCurrentPosition({ maximumAge: 30000, timeout: 50000, enableHighAccuracy: true }).then((resp) => {
         this.lat = resp.coords.latitude
         this.lng = resp.coords.longitude
         var autocomplete: any;
+        
         console.log(this.lat+", "+this.lng);
         
           var point = {lat: this.lat, lng: this.lng};
@@ -123,6 +132,7 @@ export class AboutPage {
           draggable: true,
           zoomControl: true
           });
+          loader.dismissAll()
           this.marker = new google.maps.Marker({
             position: point,
             map: this.map,
@@ -172,22 +182,23 @@ export class AboutPage {
           google.maps.event.addListener(mainThis.marker, 'dragend', function(data){
             
             var position =  mainThis.marker.getPosition();
-            this.lat = position.lat();
-            this.lng = position.lng();
-            var latlng = {lat: this.lat, lng: this.lng};
+            mainThis.lat = position.lat();
+            mainThis.lng = position.lng();
+            console.log(mainThis.lat, mainThis.lng);
+            var latlng = {lat: mainThis.lat, lng: mainThis.lng};
             var geocoder = new google.maps.Geocoder;
             geocoder.geocode({'location': latlng}, function(results, status) {
               console.log(results);
               mainThis.landmark = results[0]['formatted_address'];
               mainThis.setLandmark(true);
               mainThis.setFullAdddress();
-
             });
           });
           
           autocomplete.addListener('place_changed', function() {
             infowindow.close();
             var place = autocomplete.getPlace();
+            console.log(place);
             if (!place.geometry) {
               return;
             }
@@ -206,7 +217,9 @@ export class AboutPage {
             // Set the position of the this.marker using the place ID and location.
             mainThis.marker.setPosition(place.geometry.location);
             mainThis.marker.setVisible(true);
-  
+            this.lat = mainThis.marker.getPosition().lat();
+            this.lng = mainThis.marker.getPosition().lng();
+            console.log(this.lat, this.lng);
             infowindowContent.children['place-name'].textContent = place.name;
             infowindowContent.children['place-id'].textContent = place.place_id;
             infowindowContent.children['place-address'].textContent =

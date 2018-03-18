@@ -1,6 +1,10 @@
+import { HomePage } from './../home/home';
+import { AddressEditPage } from './address-edit/address-edit';
+import { AboutPage } from './../about/about';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { ApplicationService } from '../../providers/application';
+import { TabsPage } from '../tabs/tabs';
 
 /**
  * Generated class for the AddressesPage page.
@@ -28,11 +32,13 @@ export class AddressesPage {
     this.name = navParams.get('name');
     this.lat = navParams.get('lat');
     this.lng = navParams.get('lng');
+    console.log(this.lat, this.lng);
     this.addressPresent();    
     this.fromNewAddress = navParams.get('fromNewAddress')? navParams.get('fromNewAddress'): false;
     this.user_id = JSON.parse(window.localStorage.getItem('user'))['id'];
     this.fromNewAddress = this.navParams.get('fromNewAddress')? this.navParams.get('fromNewAddress'): false;
     var selAdd = JSON.parse(window.localStorage.getItem('selected-address'));
+    this.addresses = JSON.parse(window.localStorage.getItem('addresses'));
     this.selectedAddress = selAdd ? selAdd : this.addresses[0];
   }
 
@@ -53,6 +59,10 @@ export class AddressesPage {
       return false;
     }
   }
+
+  toNewAddress(){
+    this.navCtrl.push(AboutPage);
+  }
   saveAddressAlert()
   {
     let alert = this.alertCtrl.create({
@@ -70,7 +80,7 @@ export class AddressesPage {
           text: 'Save Address',
           handler: () => {
             this.appy.addAddress(this.fullAddress, this.lng, this.lat, this.name, this.user_id).then((data)=>{
-              this.navCtrl.setRoot(AddressesPage);
+              this.navCtrl.setRoot(TabsPage);
             });
           }
         }
@@ -106,5 +116,9 @@ export class AddressesPage {
     else{
       return false;
     }
+  }
+
+  editAddress(address){
+    this.navCtrl.push(AddressEditPage, {oldAddress: address});
   }
 }

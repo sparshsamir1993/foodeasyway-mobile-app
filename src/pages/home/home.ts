@@ -20,6 +20,7 @@ export class HomePage {
   order;
   restaurants;
   order_items;
+  rootpagel;
   pages: Array<{title: string, component: any}>;
   pagesNot: Array<{title: string, component: any}>;
   constructor(public navCtrl: NavController, public auth: AuthService, public appy: ApplicationService) {

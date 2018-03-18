@@ -32,10 +32,19 @@ export class RestaurantItems {
 
   }
   ionViewWillEnter(){
-      
-      var orderItemInStore = JSON.parse(window.localStorage.getItem('order-items'));
+      var orderItem = window.localStorage.getItem('order-items');
+      orderItem = orderItem ? orderItem : "{}";
+      var orderStore = window.localStorage.getItem('order');
+      orderStore = orderStore ? orderStore : "{}";
+      if(orderStore){
+        if(orderStore == undefined || orderStore == "undefined"){
+            orderStore = "{}"
+        }
+      }
+      console.log(orderItem, orderStore);
+      var orderItemInStore = JSON.parse(orderItem);
       this.order_items = this.navParams.get('order_items');
-      var order = JSON.parse(window.localStorage.getItem('order'));
+      var order = JSON.parse(orderStore);
       var sameOrder = false;
       if(orderItemInStore != null){
         if(orderItemInStore.length >0){
