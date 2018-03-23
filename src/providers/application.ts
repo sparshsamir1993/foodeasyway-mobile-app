@@ -301,7 +301,7 @@ export class ApplicationService {
     });
   }  
 
-  confirmOrder(order_restaurant, grand_total)
+  confirmOrder(order_restaurant, grand_total, addressId)
   {
     var headers = new Headers();
     console.log(this.access_token,this.expiry,this.token_type,this.uid, this.client);
@@ -315,7 +315,7 @@ export class ApplicationService {
     var order_restaurant_id = order_restaurant.id;
     var order_id = order_restaurant.order_id;
     return new Promise(resolve =>{
-        this.http.post(this.baseUrl+'/order_restaurants/'+order_restaurant_id+'/user_order_confirm?grand_total='+grand_total+'&order_restaurant_id='+order_restaurant_id+'&order_id='+order_id , {headers: headers}).subscribe(data =>{
+        this.http.post(this.baseUrl+'/order_restaurants/'+order_restaurant_id+'/user_order_confirm?grand_total='+grand_total+'&order_restaurant_id='+order_restaurant_id+'&order_id='+order_id+"&address_id="+addressId , {headers: headers}).subscribe(data =>{
             if(data){
                 resolve(data);
             }
@@ -345,7 +345,7 @@ export class ApplicationService {
         this.http.get(this.baseUrl+'/order_restaurants/'+order_restaurant_id, {headers: headers}).subscribe(data =>{
             if(data){
                 console.log(data);
-                resolve(data.json());
+                resolve(data.json().object);
             }
             else{
 
@@ -358,5 +358,35 @@ export class ApplicationService {
         });
     });
     
+  }
+
+  getUserOrders(user_id)
+  {
+    var headers = new Headers();
+    console.log(this.access_token,this.expiry,this.token_type,this.uid, this.client);
+    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+    headers.append('access-token', this.access_token);
+    headers.append('expiry', this.expiry);
+    headers.append('token-type', this.token_type);
+    headers.append('uid', this.uid);
+    headers.append('client', this.client);
+    return new Promise(resolve =>{
+        this.http.get(this.baseUrl+'/users/'+user_id+'/order_history', {headers: headers}).subscribe(data =>{
+            if(data){
+                console.log(data);
+                resolve(data.json());
+            }
+            else{
+
+            }
+        },
+        err=>{
+            console.log(err);
+    
+            
+        });
+    });
+
+
   }
 }

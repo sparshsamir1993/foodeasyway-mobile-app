@@ -1,3 +1,4 @@
+import { TabsPage } from './../tabs/tabs';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { RestaurantsPage } from '../restaurants/restaurants';
@@ -30,6 +31,17 @@ export class RestaurantItems {
   constructor(public navCtrl: NavController, public navParams: NavParams, public appy: ApplicationService, public auth: AuthService) {
     
 
+  }
+  ionViewCanEnter(){
+        var orderItems = JSON.parse(window.localStorage.getItem('order-items'))
+        var order = JSON.parse(window.localStorage.getItem('order'))
+        if(order){
+            return true;
+        }
+        else{
+            this.navCtrl.setRoot(TabsPage);
+            return false;
+        }
   }
   ionViewWillEnter(){
       var orderItem = window.localStorage.getItem('order-items');

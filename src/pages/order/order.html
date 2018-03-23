@@ -21,38 +21,57 @@
               <ion-card-header>
                   <h1>{{rest.name}}</h1>
               </ion-card-header>
-              <ion-item-group menuClose>
-                <ion-list>
-                  <ion-item class="rem5" *ngFor="let item of orderItems" >
-                    <div *ngIf="presentInRest(rest ,item)">
-                        <ion-row>
-                            <ion-col text-wrap padding-vertical col-6>
-                              <h2>{{item.name}}</h2>
-                            </ion-col>
-                            <ion-col text-center padding-vertical col-2>
-                              <span>X</span>{{item.quantity}}
-                            </ion-col>
-                            <ion-col text-center padding-vertical col-2>
-                              {{item.total}}
-                            </ion-col>
-                            <ion-col text-center col-2>
-                              <button ion-button class="smallBtn" color="danger" (click)="deleteOItem(item)"><ion-icon name="trash"></ion-icon> </button>
-                            </ion-col>  
-                          </ion-row>      
-                    </div>
-                  </ion-item>
-                </ion-list>
-              </ion-item-group>
               <ion-card-content>
+                <!-- <ion-item-group menuClose>
+                  <ion-list>
+                    <ion-item class="rem5" *ngFor="let item of orderItems" >
+                      <div *ngIf="presentInRest(rest ,item)">
+                          <ion-row >
+                              <ion-col text-wrap padding-vertical col-6>
+                                <h2>{{item.name}}</h2>
+                              </ion-col>
+                              <ion-col text-center padding-vertical col-2>
+                                <span>X</span>{{item.quantity}}
+                              </ion-col>
+                              <ion-col text-center padding-vertical col-2>
+                                {{item.total}}
+                              </ion-col>
+                              <ion-col text-center col-2>
+                                <button ion-button class="smallBtn" color="danger" (click)="deleteOItem(item)"><ion-icon name="trash"></ion-icon> </button>
+                              </ion-col>  
+                            </ion-row>      
+                      </div>
+                    </ion-item>
+                  </ion-list>
+                </ion-item-group> -->
+                <div>
+
+                </div>
+                <ion-grid *ngFor="let item of orderItems" >
+                  <ion-row *ngIf="presentInRest(rest ,item)">
+                    <ion-col col-6>
+                      <h2>{{item.name}}</h2>
+                    </ion-col>
+                    <ion-col>
+                      <span>X</span>{{item.quantity}}
+                    </ion-col>
+                    <ion-col>
+                      {{item.total}}
+                    </ion-col>
+                    <ion-col>
+                      <button ion-button class="smallBtn" color="danger" (click)="deleteOItem(item)"><ion-icon name="trash"></ion-icon> </button>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
                 <ion-row>
                   <ion-col col-5 offset-7 >
-                    <h2>Total : {{totalRest}}</h2>
-                  </ion-col>
-                </ion-row>
-                <ion-row>
-                  <ion-col col-4>
-                    <button ion-button color="secondary" round="true" center (click)="confirmOrderAlert(rest)"> Confirm Order? </button>
-                  </ion-col>
+                      <h2>Total : {{totalRest}}</h2>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col col-4>
+                      <button ion-button color="secondary" round="true" center (click)="confirmOrderAlert(rest)"> Confirm Order? </button>
+                    </ion-col>
                 </ion-row>
               </ion-card-content>
               

@@ -1,3 +1,6 @@
 page-previous-orders {
+    ion-content, .content-md{
+        background-color: map-get($colors, background-grey);
+    }
 
 }

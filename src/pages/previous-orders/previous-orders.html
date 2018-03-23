@@ -14,5 +14,40 @@
 
 
 <ion-content padding>
-
+  <div *ngFor="let order of orders; let i = index;">
+    <ion-card>
+      <ion-card-header>
+        <h3>Order: {{i+1}}</h3>
+      </ion-card-header>
+      <ion-card-content>
+        <div *ngFor="let restaurant of order.order_restaurants">
+          <ion-card (click)="toOrderRestaurantDetails(restaurant)">
+            <!-- <ion-grid>
+              <ion-row>
+                <ion-col col-6>
+                  <h2>{{restaurant.restaurant.name}}</h2>
+                </ion-col>
+              </ion-row>
+            </ion-grid> -->
+            <ion-card-header>
+              <h2>{{restaurant.restaurant.name}}</h2>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-grid>
+                <ion-row>
+                  <ion-col col-5>
+                    <h4>Total:  <span [innerText]="getRestaurantTotal(restaurant.order_items)"></span></h4>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-card-content>
+          </ion-card>
+        </div>
+        <div *ngIf="order.order_restaurants.length >1">
+          <hr>
+          <h2>Grand Total:  <span [innerText]="getOrderTotal(order.order_items)"></span></h2>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>

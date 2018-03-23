@@ -14,6 +14,7 @@ import { ApplicationService } from '../../providers/application';
   templateUrl: 'order-status.html',
 })
 export class OrderStatusPage {
+  status;
   order_restaurant: any;
   constructor(public navCtrl: NavController, public navParams: NavParams, public appy: ApplicationService) {
     this.getOrderRestaurant();
@@ -32,7 +33,7 @@ export class OrderStatusPage {
     var order_restaurant_id = this.order_restaurant.id;
     this.appy.getOrderStatus(order_restaurant_id).then((data)=>{
       console.log(data);
-      
+      this.status = data['status'];
     });
   }
 }

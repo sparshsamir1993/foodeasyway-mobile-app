@@ -5,4 +5,8 @@ page-restaurants {
 	.mt-4rem{
 		margin-top: 4rem;
 	}
+	ion-content, .content-md{
+        background-color: map-get($colors, background-grey);
+    }
+
 }

@@ -1,3 +1,4 @@
+import { PreviousOrdersPage } from './../previous-orders/previous-orders';
 import { AddressesPage } from './../addresses/addresses';
 import { Component , ViewChild} from '@angular/core';
 import { Nav,Platform } from 'ionic-angular';
@@ -36,6 +37,7 @@ export class HomePage {
         this.pages = [
                   { title: 'Home', component: HomePage },
                   { title: 'Restaurants', component: RestaurantsPage},
+                  { title : 'Order History', component: PreviousOrdersPage},
                   { title: 'Saved Addresses', component: AddressesPage},
                   { title: 'Logout', component: LogoutPage}
                   

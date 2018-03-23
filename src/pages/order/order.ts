@@ -21,6 +21,8 @@ export class Order {
     totalsJson;
     totalRest;
     order_restaurant;
+    selectedAddress;
+    order_restaurant_sorted;
   constructor(public navCtrl: NavController, public navParams: NavParams, public appy: ApplicationService, public alertCtrl: AlertController) {
       this.orderItems = JSON.parse(window.localStorage.getItem('order-items'));
       this.restaurants = navParams.get('restaurants');
@@ -30,10 +32,20 @@ export class Order {
 
       
   }
-  ionViewWillLoad(){
+  ionViewWillEnter(){
     this.orderItems = JSON.parse(window.localStorage.getItem('order-items'));
     this.getRestaurantTotal(this.orderItems);
     console.log(this.totalsJson);
+    if(JSON.parse(window.localStorage.getItem('order')))
+    {
+      this.orderId = JSON.parse(window.localStorage.getItem('order'))['id'];
+      var addresses = JSON.parse(window.localStorage.getItem('addresses'));
+      this.selectedAddress = JSON.parse(window.localStorage.getItem('selected-address'));
+      if(!this.selectedAddress){
+          this.selectedAddress = addresses[0];
+      }
+  
+    }
   }
 
   ionViewDidLoad() {
@@ -60,6 +72,10 @@ export class Order {
 
   isRestaurantInOrder(rest){
     var reply = false;
+    if(!this.orderItems)
+    {
+      return false;
+    }
     this.orderItems.map(function(x){
       if(rest.id === x.restaurant.id){
         
@@ -67,24 +83,32 @@ export class Order {
       }
     });
     if(reply){
-      this.totalRest = this.totalsJson[rest.id];
-      console.log(this.totalRest);
+      if(this.totalsJson)
+      {
+        this.totalRest = this.totalsJson[rest.id];
+        console.log(this.totalRest);
+  
+      }
     }
     return reply;
   }
 
   getRestaurantTotal(orderItems){
     var total = {};
-    orderItems.map(function(x){
-      var restId = x.restaurant.id;
-      if(total[restId] !== undefined){
-        total[restId]= total[restId] + x.total;
-      }
-      else{
-        total[restId] = x.total;
-      }
-    });
-    this.totalsJson = total;
+    if(orderItems)
+    {
+      orderItems.map(function(x){
+        var restId = x.restaurant.id;
+        if(total[restId] !== undefined){
+          total[restId]= total[restId] + x.total;
+        }
+        else{
+          total[restId] = x.total;
+        }
+      });
+      this.totalsJson = total;
+    }
+
   }
   
   
@@ -126,12 +150,25 @@ export class Order {
     this.getOrderRestaurant(restaurant_id);
     
     var grand_total = this.totalsJson[restaurant_id];
-    this.appy.confirmOrder(this.order_restaurant,grand_total).then((data)=>{
+    var addressId = this.selectedAddress['id'];
+    this.appy.confirmOrder(this.order_restaurant,grand_total, addressId).then((data)=>{
       
       data = JSON.parse(data['_body']);
       console.log(data);
       if(data['has_user_confirmed'])
       {
+        var orderItemsInStrore = JSON.parse(window.localStorage.getItem('order-items'));
+        orderItemsInStrore = orderItemsInStrore.filter(item => item.order_restaurant.id != this.order_restaurant.id);
+        if(orderItemsInStrore && orderItemsInStrore.length > 0)
+        {
+          window.localStorage.setItem('order-items', JSON.stringify(orderItemsInStrore));
+        }
+        else{
+          window.localStorage.removeItem('order');
+          window.localStorage.removeItem('order-items');
+          console.log("was the last order. Removing storage");
+        }
+        console.log(orderItemsInStrore);
         this.navCtrl.push(OrderStatusPage,{
           order_restaurant: data,
           

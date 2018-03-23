@@ -1,3 +1,4 @@
+import { PreviousOrderRestaurantPage } from './../pages/previous-order-restaurant/previous-order-restaurant';
 import { PreviousOrdersPage } from './../pages/previous-orders/previous-orders';
 import { AddressEditPage } from './../pages/addresses/address-edit/address-edit';
 import { NgModule, ErrorHandler } from '@angular/core';
@@ -35,6 +36,7 @@ import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 import { OrderStatusPage } from '../pages/order-status/order-status';
 
 
+
 @NgModule({
   declarations: [
     MyApp,
@@ -52,7 +54,9 @@ import { OrderStatusPage } from '../pages/order-status/order-status';
     AddressesPage  ,
     AddressEditPage,
     OrderStatusPage,
-    PreviousOrdersPage
+    PreviousOrdersPage,
+    PreviousOrderRestaurantPage
+    
   ],
   imports: [
     BrowserModule,
@@ -77,7 +81,8 @@ import { OrderStatusPage } from '../pages/order-status/order-status';
     AddressesPage,
     AddressEditPage,
     OrderStatusPage,
-    PreviousOrdersPage
+    PreviousOrdersPage,
+    PreviousOrderRestaurantPage
   ],
   providers: [
     StatusBar,
