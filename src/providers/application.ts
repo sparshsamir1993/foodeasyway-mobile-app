@@ -51,15 +51,14 @@ export class ApplicationService {
   }
 
   getRestaurants(){
-      var headers = new Headers();
-      console.log(this.access_token,this.expiry,this.token_type,this.uid, this.client);
-      headers.append('Content-Type', 'application/x-www-form-urlencoded');
-      headers.append('access-token', this.access_token);
-      headers.append('expiry', this.expiry);
-      headers.append('token-type', this.token_type);
-      headers.append('uid', this.uid);
-      headers.append('client', this.client);
-
+    var headers = new Headers();
+    console.log(this.access_token,this.expiry,this.token_type,this.uid, this.client);
+    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+    headers.append('access-token', this.access_token);
+    headers.append('expiry', this.expiry);
+    headers.append('token-type', this.token_type);
+    headers.append('uid', this.uid);
+    headers.append('client', this.client);
 
 
       return new Promise(resolve =>{

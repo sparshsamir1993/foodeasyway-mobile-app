@@ -1,3 +1,4 @@
+import { NavbarPage } from './../navbar/navbar';
 import { TabsPage } from './../tabs/tabs';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
@@ -7,6 +8,7 @@ import { AuthService } from '../../providers/auth-service';
 import { HomePage } from '../home/home';
 import { Order } from '../order/order';
 import * as $ from 'jquery'
+
 /**
  * Generated class for the RestaurantItems page.
  *
@@ -32,17 +34,17 @@ export class RestaurantItems {
     
 
   }
-  ionViewCanEnter(){
-        var orderItems = JSON.parse(window.localStorage.getItem('order-items'))
-        var order = JSON.parse(window.localStorage.getItem('order'))
-        if(order){
-            return true;
-        }
-        else{
-            this.navCtrl.setRoot(TabsPage);
-            return false;
-        }
-  }
+//   ionViewCanEnter(){
+//         var orderItems = JSON.parse(window.localStorage.getItem('order-items'))
+//         var order = JSON.parse(window.localStorage.getItem('order'))
+//         if(order){
+//             return true;
+//         }
+//         else{
+//             this.navCtrl.setRoot(TabsPage);
+//             return false;
+//         }
+//   }
   ionViewWillEnter(){
       var orderItem = window.localStorage.getItem('order-items');
       orderItem = orderItem ? orderItem : "{}";
