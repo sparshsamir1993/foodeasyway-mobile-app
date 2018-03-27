@@ -8,49 +8,52 @@
 <page-navbar></page-navbar>
 
 <ion-content padding class="mt-4rem">
-    <ion-card *ngFor="let r of restaurants"  (click)="showRestaurant(r)">
-        <img src="{{baseUrl}}{{r.avatar}}" />
-        <ion-card-content>
-            <ion-card-title>
-              <ion-grid>
-                <ion-row>
-                  <ion-col col-8>
-                      {{r.name}}
-                  </ion-col>
-                  <ion-col col-4>
-                    <span></span>
-                  </ion-col>
-                </ion-row>
-              </ion-grid>
-
-            </ion-card-title>
-            
-              <ion-grid>
-                <ion-row>
-                  <ion-col col-2>
-                    <ion-icon name="cash"></ion-icon>
-                  </ion-col>
-                  <ion-col col-10>
-                    <h2>Min. Order</h2>
-                    <h2>{{r.min_order}}</h2>
-                  </ion-col>
-                </ion-row>
-                <ion-row>
-                  <ion-col col-2>
-                    <ion-icon ios="ios-call" md="md-call"></ion-icon>
-                  </ion-col>
-                  <ion-col col-10>
-                    <h2>Contact</h2>
-                    <h2>{{r.contact}}</h2>
-                  </ion-col>
-                </ion-row>
-                  
-              </ion-grid>
-            
-           
-
-            <!-- <h4>{{r.min}} -->
-        </ion-card-content>
-    </ion-card>
+    <div *ngFor="let r of restaurants">
+        <ion-card  *ngIf="inRadius(r)" (click)="showRestaurant(r)">
+            <img src="{{baseUrl}}{{r.avatar}}" />
+            <ion-card-content>
+                <ion-card-title>
+                  <ion-grid>
+                    <ion-row>
+                      <ion-col col-8>
+                          {{r.name}}
+                      </ion-col>
+                      <ion-col col-4>
+                        <span [innerText]="getDistanceFromJson(r)"></span>
+                      </ion-col>
+                    </ion-row>
+                  </ion-grid>
+    
+                </ion-card-title>
+                
+                  <ion-grid>
+                    <ion-row>
+                      <ion-col col-2>
+                        <ion-icon name="cash"></ion-icon>
+                      </ion-col>
+                      <ion-col col-10>
+                        <h2>Min. Order</h2>
+                        <h2>{{r.min_order}}</h2>
+                      </ion-col>
+                    </ion-row>
+                    <ion-row>
+                      <ion-col col-2>
+                        <ion-icon ios="ios-call" md="md-call"></ion-icon>
+                      </ion-col>
+                      <ion-col col-10>
+                        <h2>Contact</h2>
+                        <h2>{{r.contact}}</h2>
+                      </ion-col>
+                    </ion-row>
+                      
+                  </ion-grid>
+                
+               
+    
+                <!-- <h4>{{r.min}} -->
+            </ion-card-content>
+        </ion-card>
+    
+    </div>
 
 </ion-content>

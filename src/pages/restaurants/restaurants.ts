@@ -17,6 +17,7 @@ declare var google;
 export class RestaurantsPage {
     restaurants;
     baseUrl;
+
     restVsDist;
     directionsService = new google.maps.DirectionsService;
     directionsDisplay = new google.maps.DirectionsRenderer;
@@ -52,6 +53,7 @@ export class RestaurantsPage {
       let self  = this;
       this.appy.getRestDists(this.restaurants).then((data)=>{
         console.log(data);
+        this.restVsDist = data;
       })
   }
   showList(){
@@ -70,89 +72,21 @@ export class RestaurantsPage {
       this.navCtrl.push(RestaurantItems,{items:rest.items, order_items: rest.order_items});
   }
 
-  inRadius(rest)
+
+  getDistanceFromJson(r)
   {
-      var restLat = rest.lat;
-      var restLng = rest.lng;
-      var selected_address = JSON.parse(window.localStorage.getItem('selected-address'));
-      if(!selected_address)
-      {
-          var addresses = JSON.parse(window.localStorage.getItem('addresses'));
-          selected_address = addresses[0];
-      }
-      var userLat;
-      var userLng;
-      if(selected_address)
-      {
-          userLat = selected_address.lat;
-          userLng = selected_address.lng;
-      }
-      else{
-          return "set Address";
-      }
-      var location = "e";
-      if(restLat && restLng && userLat && userLng)
-      {
-        var origin1 = {lat: restLat, lng: restLng};
-        var dest1 = {lat: userLat, lng: userLng};
-        var service = new google.maps.DistanceMatrixService;
-        service.getDistanceMatrix({
-            origins: [origin1],
-            destinations: [dest1],
-            travelMode: 'DRIVING',
-            unitSystem: google.maps.UnitSystem.METRIC,
-            avoidHighways: false,
-            avoidTolls: false
-          }, function(response, status) {
-            console.log(response);
-            console.log( response.rows[0].elements[0].distance.text);
-            location =  response.rows[0].elements[0].distance.text
-          })
-      }
-      return location;
-    
+      var r_id = r.id;
+      var distance = this.restVsDist[r_id];
+      return distance;
   }
 
-
-//   calculateAndDisplayRoute(rest) {
-//     var restLat = rest.lat;
-//     var restLng = rest.lng;
-//     var selected_address = JSON.parse(window.localStorage.getItem('selected-address'));
-//     if(!selected_address)
-//     {
-//         var addresses = JSON.parse(window.localStorage.getItem('addresses'));
-//         selected_address = addresses[0];
-//     }
-//     var userLat;
-//     var userLng;
-//     if(selected_address)
-//     {
-//         userLat = selected_address.lat;
-//         userLng = selected_address.lng;
-//     }
-//     else{
-//         return "set Address";
-//     }
-//     var location = "e";
-//     if(restLat && restLng && userLat && userLng)
-//     {
-//       var origin1 = {lat: restLat, lng: restLng};
-//       var dest1 = {lat: userLat, lng: userLng};
-
-//         this.directionsService.route({
-//         origin: origin1,
-//         destination: dest1,
-//         travelMode: 'DRIVING'
-//         }, (response, status) => {
-//         if (status === 'OK') {
-//             // this.directionsDisplay.setDirections(response);
-//             console.log( response.rows[0].elements[0].distance.text);
-//             location =  response.rows[0].elements[0].distance.text;
-//             return location;
-//         } else {
-//             window.alert('Directions request failed due to ' + status);
-//         }
-//         });
-//     }
-//   }
+  inRadius(rest){
+      var restDist = this.restVsDist[rest.id];
+      if(rest.max_distance < parseFloat(restDist)){
+          return false;
+      }
+      else{
+          return true;
+      }
+  }
 }
