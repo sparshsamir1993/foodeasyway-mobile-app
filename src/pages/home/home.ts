@@ -93,6 +93,19 @@ export class HomePage {
           this.appy.getUserAddress(user_id).then((data)=>{
             console.log(data);
             window.localStorage.setItem('addresses', JSON.stringify(data));
+            if(!JSON.parse(window.localStorage.getItem('selected-address')))
+            {
+                var address= JSON.parse(window.localStorage.getItem('addresses'));
+                if(address && address.length >0)
+                {
+                    address = address[0];
+                }
+                if(address)
+                {
+                    window.localStorage.setItem('selected-address', JSON.stringify(address));                    
+                }
+
+            }
           })
         }
       }

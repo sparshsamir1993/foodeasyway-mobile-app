@@ -12,9 +12,19 @@
         <img src="{{baseUrl}}{{r.avatar}}" />
         <ion-card-content>
             <ion-card-title>
-                {{r.name}}
+              <ion-grid>
+                <ion-row>
+                  <ion-col col-8>
+                      {{r.name}}
+                  </ion-col>
+                  <ion-col col-4>
+                    <span></span>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+
             </ion-card-title>
-            <ion-item>
+            
               <ion-grid>
                 <ion-row>
                   <ion-col col-2>
@@ -25,10 +35,6 @@
                     <h2>{{r.min_order}}</h2>
                   </ion-col>
                 </ion-row>
-              </ion-grid>
-            </ion-item>
-                        <ion-item>
-              <ion-grid>
                 <ion-row>
                   <ion-col col-2>
                     <ion-icon ios="ios-call" md="md-call"></ion-icon>
@@ -38,8 +44,10 @@
                     <h2>{{r.contact}}</h2>
                   </ion-col>
                 </ion-row>
+                  
               </ion-grid>
-            </ion-item>
+            
+           
 
             <!-- <h4>{{r.min}} -->
         </ion-card-content>

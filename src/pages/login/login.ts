@@ -34,10 +34,7 @@ export class LoginPage {
     console.log('Hello LoginPage Page');
   }
 
-  /*
-  for both of these, if the right form is showing, process the form,
-  otherwise show it
-  */
+  
   fbLogin(){
     this.fb.login(['public_profile', 'user_friends', 'email'])
     .then((res: FacebookLoginResponse) => {

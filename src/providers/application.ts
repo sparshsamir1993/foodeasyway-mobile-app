@@ -20,6 +20,7 @@ export class ApplicationService {
     client;
     restaurants;
 
+  
   constructor(public http: Http, public storage: Storage, public auth: AuthService) {
       this.baseUrl = 'http://localhost:3000/api/v1';
       //this.baseUrl = 'https://grubvibes.herokuapp.com/api/vi';
@@ -385,7 +386,75 @@ export class ApplicationService {
             
         });
     });
+  }
 
+  getDistance(srcLat, srcLng, dstLat, dstLng)
+  {
+      var url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins="+srcLat+","+srcLng+"&destinations="+dstLat+","+dstLng+"&mode=driving&key=AIzaSyBd1Jcv3NmIujQrBKRZapKkXaDDmFRRpZA";
+      console.log(url);
+  
+      return new Promise(resolve=>{
+          this.http.get(url).subscribe(data=>{
+              console.log(data);
+              resolve(data);
+          },
+        (err)=>{
+            console.log(err);
+        })
+      })
+  }
 
+  getRestDists(restaurants)
+  { 
+
+      
+      var selAddress = JSON.parse(window.localStorage.getItem('selected-address'));
+      if(!selAddress){
+          var addresses = JSON.parse(window.localStorage.getItem('address'))
+          selAddress = addresses[0];
+      }
+      var selAddLat  = selAddress.lat;
+      var selAddLng = selAddress.lng;
+      
+      
+    return new Promise(resolve=>{
+        var distJson = {};
+        restaurants.map(function(x){
+            var dest1 = {lat: selAddLat, lng: selAddLng};
+            if(x.lat == null || x.lng ==null){
+                distJson[x.id] =null;
+            }
+            var origin1 = {lat: x.lat, lng: x.lng};
+    
+          
+            var service = new google.maps.DistanceMatrixService;
+            if(x.lat != null && x.lng != null)
+            {
+                service.getDistanceMatrix({
+                    origins: [origin1],
+                    destinations: [dest1],
+                    travelMode: 'DRIVING',
+                    unitSystem: google.maps.UnitSystem.METRIC,
+                    avoidHighways: false,
+                    avoidTolls: false
+                  }, function(response, status) {
+                    console.log(response);
+                    // console.log( response.rows[0].elements[0].distance.text);
+                    var location =  response.rows[0].elements[0].distance.text;
+                    distJson[x.id] = location;
+                    console.log(distJson);
+                    if(Object.keys(distJson).length == restaurants.length){
+                        resolve(distJson);
+                    }
+                  });
+      
+            }
+            
+      
+          })
+          console.log(distJson);
+          
+    })      
+ 
   }
 }
