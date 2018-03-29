@@ -9,7 +9,7 @@
 
 <ion-content padding class="mt-4rem">
     <div *ngFor="let r of restaurants">
-        <ion-card  *ngIf="inRadius(r)" (click)="showRestaurant(r)">
+        <ion-card *ngIf="r.deliver_distance > restVsDist[r.id]"(click)="showRestaurant(r)">
             <img src="{{baseUrl}}{{r.avatar}}" />
             <ion-card-content>
                 <ion-card-title>
@@ -19,7 +19,7 @@
                           {{r.name}}
                       </ion-col>
                       <ion-col col-4>
-                        <span [innerText]="getDistanceFromJson(r)"></span>
+                        <h6><span >{{restVsDist[r.id]}} Kms</span></h6>
                       </ion-col>
                     </ion-row>
                   </ion-grid>

@@ -18,7 +18,7 @@ export class RestaurantsPage {
     restaurants;
     baseUrl;
 
-    restVsDist;
+    restVsDist:any;
     directionsService = new google.maps.DirectionsService;
     directionsDisplay = new google.maps.DirectionsRenderer;
   constructor(public navCtrl: NavController, public navParams: NavParams, public appy: ApplicationService, public auth: AuthService) {
@@ -31,15 +31,18 @@ export class RestaurantsPage {
   //         this.restaurants = data;
   //     });
   // },25000);
-
+    this.restaurants = this.navParams.get('restaurants');
+    this.restVsDist = this.navParams.get('restVsDist');
+    console.log(this.restVsDist);
   }
-  ionViewDidEnter(){
-    this.getRestVsDist();
+  ionViewWillEnter(){
+    this.appy.setHeaders();
+    this.showList();
+
+    
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad Restaurants');
-    this.appy.setHeaders();
-    this.showList();
     this.baseUrl = "http://localhost:3000";
     this.auth.loadUserCredentials();
     console.log(window.localStorage.getItem('access-token'));
@@ -49,19 +52,25 @@ export class RestaurantsPage {
     
   }
 
-  getRestVsDist(){
-      let self  = this;
-      this.appy.getRestDists(this.restaurants).then((data)=>{
-        console.log(data);
-        this.restVsDist = data;
-      })
-  }
+//   getRestVsDist(){
+//       let self  = this;
+//       if(this.restaurants)
+//       {
+//         this.appy.getRestDists(this.restaurants).then((data)=>{
+//             console.log(data);
+//             // self.restVsDist = JSON.parse(JSON.stringify(data));
+//             self.restVsDist = JSON.stringify(data);
+//           })
+    
+//       }
+//   }
   showList(){
+    var self = this;
       this.appy.getRestaurants().then((data)=>{
           console.log(data);
           window.localStorage.setItem('restaurants', JSON.stringify(data));
-          this.restaurants = data;
-
+          self.restaurants = data;
+          
       })
       .catch((err)=>{
           console.log(err);
@@ -80,13 +89,14 @@ export class RestaurantsPage {
       return distance;
   }
 
-  inRadius(rest){
-      var restDist = this.restVsDist[rest.id];
-      if(rest.max_distance < parseFloat(restDist)){
-          return false;
-      }
-      else{
-          return true;
-      }
-  }
+//   inRadius(rest){
+//       console.log(rest);
+//       rest.max_distance = 3;
+//       var restDist = this.restVsDist[rest.id];
+//       console.log(this.restVsDist);
+//       if(rest.max_distance < parseFloat(restDist)){
+          
+//           return true;
+//       }
+//   }
 }

@@ -75,6 +75,10 @@ export class AboutPage {
 
   toAddressPage(){
     var user_id = JSON.parse(window.localStorage.getItem('user'))['id'];
+    if(this.landmark == '' || this.landmark == undefined)
+    {
+      this.landmark = $('#place-name').text() + $('#place-address').text()
+    }
     if(this.street == '' || this.landmark == '' || this.street == undefined || this.landmark == undefined)
     {
       let alert = this.alertCtrl.create({

@@ -1,25 +1,18 @@
 <page-navbar></page-navbar>
-<ion-menu [content]="content" type="overlay">
-    <ion-header>
-        <ion-navbar menuToggle>
-            <ion-title>Menu</ion-title>
-        </ion-navbar>
-    </ion-header>
-
-    <ion-content padding *ngIf="authenticated()">
-        <ion-list>
-            <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
-                {{p.title}}
-            </button>
-        </ion-list>
-    </ion-content>
-    <ion-content *ngIf="!authenticated()">
-        <ion-list>
-            <button menuClose ion-item *ngFor="let p of pagesNot" (click)="openPage(p)">
-                {{p.title}}
-            </button>
-        </ion-list>
-    </ion-content>
-</ion-menu>
-<ion-nav id="nav" [root]="rootPage" #content swipe-back-enabled="false"></ion-nav>
-<page-welcome></page-welcome>
+<ion-content padding class="card-background-page">
+	<div class="imageBtn">
+	    <ion-img class="bannerImg" object-fit="cover" src="http://freedesignfile.com/upload/2017/06/Crisp-and-delicious-fried-chicken-HD-picture.jpg" ></ion-img>
+	    <div class="labelImg">GrubMonk</div>
+    </div>
+    <ion-grid>
+        <ion-row>
+            <ion-col col-8>
+                <ion-card (click)="toRestaurantPage()">
+                    <ion-card-content>
+                        <h4 class="greenTxt upperCase">Restaurants</h4>                        
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

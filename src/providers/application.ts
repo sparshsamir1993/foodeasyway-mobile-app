@@ -428,8 +428,12 @@ export class ApplicationService {
     
           
             var service = new google.maps.DistanceMatrixService;
-            if(x.lat != null && x.lng != null)
+            console.log(origin1);
+            console.log(dest1);
+            if((x.lat != null || x.lat != undefined) && (x.lng != null || x.lng !=undefined))
             {
+                console.log(origin1);
+                console.log(dest1);
                 service.getDistanceMatrix({
                     origins: [origin1],
                     destinations: [dest1],
@@ -441,18 +445,23 @@ export class ApplicationService {
                     console.log(response);
                     // console.log( response.rows[0].elements[0].distance.text);
                     var location =  response.rows[0].elements[0].distance.text;
-                    distJson[x.id] = location;
+                    distJson[x.id] = parseFloat(location);
                     console.log(distJson);
                     if(Object.keys(distJson).length == restaurants.length){
-                        resolve(distJson);
+                        if(Object.keys(distJson).length >0)
+                        {
+                            window.localStorage.setItem('restVsDist', JSON.stringify(distJson))
+                            resolve(distJson);
+                        }
+
                     }
                   });
       
             }
             
       
-          })
-          console.log(distJson);
+        })
+        console.log(distJson);
           
     })      
  

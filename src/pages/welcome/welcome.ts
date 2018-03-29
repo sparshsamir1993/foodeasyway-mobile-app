@@ -22,6 +22,14 @@ export class WelcomePage {
     this.getUserAddress();
     console.log('ionViewDidLoad WelcomePage');
   }
+  ionViewDidEnter(){
+   var restaurants = JSON.parse(window.localStorage.getItem('resteraunts'));
+   var restVsDist = JSON.parse(window.localStorage.getItem('restVsDist'));
+   console.log(restaurants);
+   console.log("from home page");
+   console.log(restVsDist);
+
+  }
   getUserAddress()
   {
     var user_id = JSON.parse(window.localStorage.getItem('user'))['id'];

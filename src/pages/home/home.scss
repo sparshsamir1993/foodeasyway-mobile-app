@@ -1,12 +1,26 @@
 page-home {
+ .bannerImg{
+    width:100%; 
+    height:100%;
 
+     img{
+        width:100%; 
+        height:100%;    
+     }
+ }
+ .greenTxt{
+     color: rgb(11, 185, 20);
+ }
+ .upperCase{
+     text-transform: uppercase;
+ }
 }
 #cart{
     font-size: 30px;
 }
 .imageBtn{
 	margin-top: 15%;
-	height: 40%;
+	height: 30%;
 }
 .labelImg{
 	position: relative;
@@ -15,6 +29,7 @@ page-home {
     font-size: 200%;
     color: white;
     font-weight: 900;
+    height: 100%;
 
 }
 img{
